@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -56,7 +57,6 @@ public class Tporto implements Serializable {
 	private BigDecimal selfportion;
 	private Date targetpk;
 	private String updatedby;
-	private List<Tportopart> tportoparts;
 
 	public Tporto() {
 	}
@@ -312,6 +312,7 @@ public class Tporto implements Serializable {
 	// bi-directional many-to-one association to Msector
 	@ManyToOne
 	@JoinColumn(name = "msectorfk")
+	@ForeignKey(name = "TPORTO_FK1")
 	public Msector getMsector() {
 		return msector;
 	}
@@ -323,36 +324,13 @@ public class Tporto implements Serializable {
 	// bi-directional many-to-one association to Munit
 	@ManyToOne
 	@JoinColumn(name = "munitfk")
+	@ForeignKey(name = "TPORTO_FK2")
 	public Munit getMunit() {
 		return munit;
 	}
 
 	public void setMunit(Munit munit) {
 		this.munit = munit;
-	}
-
-	// bi-directional many-to-one association to Tportopart
-	@OneToMany(mappedBy = "tporto")
-	public List<Tportopart> getTportoparts() {
-		return this.tportoparts;
-	}
-
-	public void setTportoparts(List<Tportopart> tportoparts) {
-		this.tportoparts = tportoparts;
-	}
-
-	public Tportopart addTportopart(Tportopart tportopart) {
-		getTportoparts().add(tportopart);
-		tportopart.setTporto(this);
-
-		return tportopart;
-	}
-
-	public Tportopart removeTportopart(Tportopart tportopart) {
-		getTportoparts().remove(tportopart);
-		tportopart.setTporto(null);
-
-		return tportopart;
 	}
 
 }

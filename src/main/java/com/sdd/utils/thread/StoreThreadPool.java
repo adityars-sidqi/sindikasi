@@ -2,7 +2,7 @@ package com.sdd.utils.thread;
 
 import org.zkoss.lang.Library;
 
-import com.sdd.ecollection.handler.ThreadPool;
+import com.sdd.sindikasi.handler.ThreadPool;
 
 public class StoreThreadPool {
 

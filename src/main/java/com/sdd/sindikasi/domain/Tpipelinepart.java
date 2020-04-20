@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -97,6 +98,7 @@ public class Tpipelinepart implements Serializable {
 	// bi-directional many-to-one association to Tpipeline
 	@ManyToOne
 	@JoinColumn(name = "tpipelinefk")
+	@ForeignKey(name = "TPIPELINEPART_FK1")
 	public Tpipeline getTpipeline() {
 		return this.tpipeline;
 	}

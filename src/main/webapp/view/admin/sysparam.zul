@@ -1,0 +1,36 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.MsysparamVm')"
+		validationMessages="@id('vmsgs')">
+		<div class="card">
+			<div class="card-header">
+				<n:h5>System Paramter Setting</n:h5>
+			</div>
+			<div class="card-body">
+				<div align="right">
+					<button sclass="btn btn-primary btn-sm"
+						label="${labels.common.save}" onClick="@command('doSave')"
+						width="100px" />
+				</div>
+				<separator />
+				<grid id="grid" sclass="table table-bordered">
+					<columns>
+						<column label="${labels.sysparam.paramname }" />
+						<column label="${labels.sysparam.paramdesc }" />
+						<column label="${labels.sysparam.paramvalue }"
+							align="center" />
+					</columns>
+					<rows />
+				</grid>
+				<separator />
+				<div align="right">
+					<button sclass="btn btn-primary btn-sm"
+						label="${labels.common.save}" onClick="@command('doSave')"
+						width="100px" />
+				</div>
+			</div>
+		</div>
+		<separator />
+	</window>
+</zk>

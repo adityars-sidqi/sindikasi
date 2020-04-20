@@ -2,7 +2,6 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -33,8 +32,6 @@ public class Mrm implements Serializable {
 	private String rmname;
 	private String updatedby;
 	private Mrmgroup mrmgroup;
-	private List<Tpipeline> tpipelines;
-	private List<Ttargetrm> ttargetrms;
 
 	public Mrm() {
 	}
@@ -95,62 +92,13 @@ public class Mrm implements Serializable {
 	//bi-directional many-to-one association to Mrmgroup
 	@ManyToOne
 	@JoinColumn(name="mrmgroupfk")
+	@ForeignKey(name = "MRM_FK1")
 	public Mrmgroup getMrmgroup() {
 		return this.mrmgroup;
 	}
 
 	public void setMrmgroup(Mrmgroup mrmgroup) {
 		this.mrmgroup = mrmgroup;
-	}
-
-
-	//bi-directional many-to-one association to Tpipeline
-	@OneToMany(mappedBy="mrm")
-	public List<Tpipeline> getTpipelines() {
-		return this.tpipelines;
-	}
-
-	public void setTpipelines(List<Tpipeline> tpipelines) {
-		this.tpipelines = tpipelines;
-	}
-
-	public Tpipeline addTpipeline(Tpipeline tpipeline) {
-		getTpipelines().add(tpipeline);
-		tpipeline.setMrm(this);
-
-		return tpipeline;
-	}
-
-	public Tpipeline removeTpipeline(Tpipeline tpipeline) {
-		getTpipelines().remove(tpipeline);
-		tpipeline.setMrm(null);
-
-		return tpipeline;
-	}
-
-
-	//bi-directional many-to-one association to Ttargetrm
-	@OneToMany(mappedBy="mrm")
-	public List<Ttargetrm> getTtargetrms() {
-		return this.ttargetrms;
-	}
-
-	public void setTtargetrms(List<Ttargetrm> ttargetrms) {
-		this.ttargetrms = ttargetrms;
-	}
-
-	public Ttargetrm addTtargetrm(Ttargetrm ttargetrm) {
-		getTtargetrms().add(ttargetrm);
-		ttargetrm.setMrm(this);
-
-		return ttargetrm;
-	}
-
-	public Ttargetrm removeTtargetrm(Ttargetrm ttargetrm) {
-		getTtargetrms().remove(ttargetrm);
-		ttargetrm.setMrm(null);
-
-		return ttargetrm;
 	}
 
 }

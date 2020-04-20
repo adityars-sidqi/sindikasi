@@ -30,9 +30,6 @@ public class Mrmgroup implements Serializable {
 	private String rmgroupcode;
 	private String rmgroupname;
 	private String updatedby;
-	private List<Mrm> mrms;
-	private List<Ttargetrm> ttargetrms;
-	private List<Ttargetrmgroup> ttargetrmgroups;
 
 	public Mrmgroup() {
 	}
@@ -86,78 +83,6 @@ public class Mrmgroup implements Serializable {
 
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
-	}
-
-	// bi-directional many-to-one association to Mrm
-	@OneToMany(mappedBy = "mrmgroup")
-	public List<Mrm> getMrms() {
-		return this.mrms;
-	}
-
-	public void setMrms(List<Mrm> mrms) {
-		this.mrms = mrms;
-	}
-
-	public Mrm addMrm(Mrm mrm) {
-		getMrms().add(mrm);
-		mrm.setMrmgroup(this);
-
-		return mrm;
-	}
-
-	public Mrm removeMrm(Mrm mrm) {
-		getMrms().remove(mrm);
-		mrm.setMrmgroup(null);
-
-		return mrm;
-	}
-
-	// bi-directional many-to-one association to Ttargetrm
-	@OneToMany(mappedBy = "mrmgroup")
-	public List<Ttargetrm> getTtargetrms() {
-		return this.ttargetrms;
-	}
-
-	public void setTtargetrms(List<Ttargetrm> ttargetrms) {
-		this.ttargetrms = ttargetrms;
-	}
-
-	public Ttargetrm addTtargetrm(Ttargetrm ttargetrm) {
-		getTtargetrms().add(ttargetrm);
-		ttargetrm.setMrmgroup(this);
-
-		return ttargetrm;
-	}
-
-	public Ttargetrm removeTtargetrm(Ttargetrm ttargetrm) {
-		getTtargetrms().remove(ttargetrm);
-		ttargetrm.setMrmgroup(null);
-
-		return ttargetrm;
-	}
-
-	// bi-directional many-to-one association to Ttargetrmgroup
-	@OneToMany(mappedBy = "mrmgroup")
-	public List<Ttargetrmgroup> getTtargetrmgroups() {
-		return this.ttargetrmgroups;
-	}
-
-	public void setTtargetrmgroups(List<Ttargetrmgroup> ttargetrmgroups) {
-		this.ttargetrmgroups = ttargetrmgroups;
-	}
-
-	public Ttargetrmgroup addTtargetrmgroup(Ttargetrmgroup ttargetrmgroup) {
-		getTtargetrmgroups().add(ttargetrmgroup);
-		ttargetrmgroup.setMrmgroup(this);
-
-		return ttargetrmgroup;
-	}
-
-	public Ttargetrmgroup removeTtargetrmgroup(Ttargetrmgroup ttargetrmgroup) {
-		getTtargetrmgroups().remove(ttargetrmgroup);
-		ttargetrmgroup.setMrmgroup(null);
-
-		return ttargetrmgroup;
 	}
 
 }

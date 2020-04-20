@@ -1,0 +1,35 @@
+.z-textbox-inplace::placeholder {
+	color: white;
+}
+
+.z-listheader-content .z-combobox {
+	color: #000;
+}
+
+.z-tree-header-border {
+	border-bottom: 1px solid #727272;
+	margin-top: -1px;
+	position: relative;
+}
+
+.z-treecols-bar {
+	border: 0px;
+	background: none;
+}
+
+.z-treecell-content {
+	background-color: #edfff8;
+}
+
+.z-treerow.z-treerow-selected>.z-treecell>.z-treecell-content {
+	background: #e8f5ff;
+	position: relative
+}
+
+.z-treecell-content:hover {
+	background: #e8f5ff;
+}
+
+.z-grid .z-row-inner,.z-grid .z-cell{
+	background:0;
+	}

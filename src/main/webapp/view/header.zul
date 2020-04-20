@@ -1,0 +1,63 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<div
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.HeaderVm')">
+
+		<zscript>
+			com.sdd.sindikasi.domain.Muser oUser = (com.sdd.sindikasi.domain.Muser) session
+					.getAttribute("oUser");
+			if (oUser == null)
+				Executions.sendRedirect("/timeout.zul");	
+		</zscript>
+	
+		<n:header>
+			<n:nav class="navbar fixed-top navbar-expand-lg " style="padding: 0px">
+				<n:table id="Table_01" width="100%" height="70" border="0" cellpadding="0" cellspacing="0"  background="${pageContext.request.contextPath}/resources/images/header_02.jpg">
+					<n:tr>
+						<n:td>
+			<n:img  src="${pageContext.request.contextPath}/resources/images/header_01.jpg" width="593" height="70" alt="" /></n:td>		
+						<n:td width="100%" height="70">		
+							
+							<n:div class="collapse navbar-collapse"
+						id="navbarSupportedContent">
+						
+	
+						<!-- Right -->
+						<n:ul class="navbar-nav ml-auto nav-flex-icons" style="padding-right: 20px">
+							<n:li class="nav-item">
+								<n:div class="dropdown">
+									<!--Trigger-->
+									<n:button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						   				<n:span class="glyphicon glyphicon-user" />
+						   				<label value="${oUser.userid }" />
+						   				<n:span class="caret"></n:span>
+						 			</n:button>
+	
+									<!--Menu-->
+									<n:div
+										class="dropdown-menu dropdown-menu-right dropdown-default">
+										<a class="dropdown-item" style="font-size: 12px"
+											onClick="@command('doChangePassword')">
+											Change Password
+										</a>
+										<a class="dropdown-item" style="font-size: 12px"
+											onClick="@command('doLogout')">
+											Log Out
+										</a>
+									</n:div>
+									
+								</n:div>
+							</n:li>
+						</n:ul>
+					</n:div>
+					
+						</n:td>
+						<n:td>
+			<n:img src="${pageContext.request.contextPath}/resources/images/bni.png" width="115" height="69"/></n:td>
+					</n:tr>
+				</n:table>
+			
+			</n:nav>
+		</n:header>
+</div>
+</zk>

@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.ForeignKey;
+
 /**
  * The persistent class for the musergroupmenu database table.
  * 
@@ -44,6 +46,7 @@ public class Musergroupmenu implements Serializable {
 	//bi-directional many-to-one association to Mmenu
 	@ManyToOne
 	@JoinColumn(name="mmenufk")
+	@ForeignKey(name = "MUSERGROUPMENU_FK2")
 	public Mmenu getMmenu() {
 		return this.mmenu;
 	}
@@ -56,6 +59,7 @@ public class Musergroupmenu implements Serializable {
 	//bi-directional many-to-one association to Musergroup
 	@ManyToOne
 	@JoinColumn(name="musergroupfk")
+	@ForeignKey(name = "MUSERGROUPMENU_FK1")
 	public Musergroup getMusergroup() {
 		return this.musergroup;
 	}

@@ -36,7 +36,6 @@ public class Mdebitur implements Serializable {
 	private String officefax;
 	private String officephone;
 	private String updatedby;
-	private List<Tpipeline> tpipelines;
 
 	public Mdebitur() {
 	}
@@ -151,31 +150,6 @@ public class Mdebitur implements Serializable {
 
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
-	}
-
-
-	//bi-directional many-to-one association to Tpipeline
-	@OneToMany(mappedBy="mdebitur")
-	public List<Tpipeline> getTpipelines() {
-		return this.tpipelines;
-	}
-
-	public void setTpipelines(List<Tpipeline> tpipelines) {
-		this.tpipelines = tpipelines;
-	}
-
-	public Tpipeline addTpipeline(Tpipeline tpipeline) {
-		getTpipelines().add(tpipeline);
-		tpipeline.setMdebitur(this);
-
-		return tpipeline;
-	}
-
-	public Tpipeline removeTpipeline(Tpipeline tpipeline) {
-		getTpipelines().remove(tpipeline);
-		tpipeline.setMdebitur(null);
-
-		return tpipeline;
 	}
 
 }

@@ -41,6 +41,15 @@ public class AppData {
 			label = "DONE";
 		return label;
 	}
+	
+	public static String getStatusPipelineLabel(String code) {
+		String label = "";
+		if (code.equals(AppUtils.STATUS_WAITING_PROSES))
+			label = "WAITING PROSES";
+		else if (code.equals(AppUtils.STATUS_DONE))
+			label = "DONE";
+		return label;
+	}
 
 	public static void doDisableComponent(Boolean value, Div divRoot) {
 		// for dibawah ini akan iterasi isi divForm

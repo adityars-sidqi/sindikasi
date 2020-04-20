@@ -84,13 +84,12 @@ public class UserInitializationVm {
 
 					Treerow treerow = new Treerow();
 					Treecell treecell = new Treecell();
-
 					Label menugrouplabel = new Label(menugroup);
 
 					if (obj.getMmenu().getMenugroupicon() != null && obj.getMmenu().getMenugroupicon() != ""
 							&& obj.getMmenu().getMenugroupicon().trim().length() > 0) {
 						Image menugroupicon = new Image();
-						menugroupicon.setSrc("/images/" + obj.getMmenu().getMenugroupicon());
+						menugroupicon.setSrc("/resources/images/" + obj.getMmenu().getMenugroupicon());
 						menugroupicon.setWidth("24px");
 						menugroupicon.setHeight("24px");
 
@@ -118,13 +117,12 @@ public class UserInitializationVm {
 						Treerow treerow = new Treerow();
 
 						Treecell treecell = new Treecell();
-
 						Label menusubgrouplabel = new Label(menusubgroup);
 
 						if (obj.getMmenu().getMenusubgroupicon() != ""
 								&& obj.getMmenu().getMenusubgroupicon().trim().length() > 0) {
 							Image menusubgroupicon = new Image();
-							menusubgroupicon.setSrc("/images/" + obj.getMmenu().getMenusubgroupicon());
+							menusubgroupicon.setSrc("/resources/images/" + obj.getMmenu().getMenusubgroupicon());
 							menusubgroupicon.setWidth("24px");
 							menusubgroupicon.setHeight("24px");
 
@@ -152,13 +150,12 @@ public class UserInitializationVm {
 				Treerow treerow = new Treerow();
 
 				Treecell treecell = new Treecell();
-
 				Label menulabel = new Label(obj.getMmenu().getMenuname());
 
 				if (obj.getMmenu().getMenuicon() != "" && obj.getMmenu().getMenuicon().trim().length() > 0) {
 
 					Image menuicon = new Image();
-					menuicon.setSrc("/images/" + obj.getMmenu().getMenuicon());
+					menuicon.setSrc("/resources/images/" + obj.getMmenu().getMenuicon());
 					menuicon.setWidth("24px");
 					menuicon.setHeight("24px");
 
@@ -167,6 +164,9 @@ public class UserInitializationVm {
 
 				treecell.appendChild(menulabel);
 
+				treerow.appendChild(treecell);
+				treeitem.appendChild(treerow);
+				
 				treecell.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 					public void onEvent(Event event) throws Exception {
@@ -176,9 +176,6 @@ public class UserInitializationVm {
 						Executions.createComponents(obj.getMmenu().getMenupath(), divContent, map);
 					}
 				});
-
-				treerow.appendChild(treecell);
-				treeitem.appendChild(treerow);
 			}
 
 			Executions.createComponents("/view/welcome.zul", divContent, null);

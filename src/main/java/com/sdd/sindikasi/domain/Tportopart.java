@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -101,6 +102,7 @@ public class Tportopart implements Serializable {
 	//bi-directional many-to-one association to Tporto
 	@ManyToOne
 	@JoinColumn(name="tportofk")
+	@ForeignKey(name = "TPORTOPART_FK1")
 	public Tporto getTporto() {
 		return this.tporto;
 	}

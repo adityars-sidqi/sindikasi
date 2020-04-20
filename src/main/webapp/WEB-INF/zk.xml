@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk>
-	<!-- [Optional]
-	Uncomment if you want to defines the application's name 
-	
-	<preference>
-		<name>org.zkoss.zk.ui.WebApp.name</name>
-		<value>sindikasi</value>
-	</preference>
-	-->
+	<!-- [Optional] Uncomment if you want to defines the application's name 
+		<preference> <name>org.zkoss.zk.ui.WebApp.name</name> <value>sindikasi</value> 
+		</preference> -->
 	<device-config>
 		<device-type>ajax</device-type>
-		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
+		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the 
+			browser to reload the same URL -->
 	</device-config>
 	<preference>
 		<name>org.zkoss.zk.ui.WebApp.name</name>
 		<value>SINDIKASI</value>
 	</preference>
-	
+
 	<listener>
 		<listener-class>com.sdd.utils.db.HibernateListeners</listener-class>
 	</listener>
@@ -31,16 +27,16 @@
 		<listener-class>com.sdd.utils.scheduler.SchedulerService
 		</listener-class>
 	</listener>
-	
+
 	<system-config>
 		<label-location>/WEB-INF/zk-label.properties</label-location>
 	</system-config>
-	
+
 	<library-property>
 		<name>org.zkoss.theme.preferred</name>
 		<value>iceblue_c</value>
 	</library-property>
-	
+
 	<library-property>
 		<name>org.zkoss.zul.Paging.mold</name>
 		<value>os</value>
@@ -60,5 +56,5 @@
 		<name>maxBatchCommit</name>
 		<value>20000</value>
 	</library-property>
-	
+
 </zk>

@@ -1,0 +1,96 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.PipelineListVm')"
+		validationMessages="@id('vmsgs')">
+		<caption label="Pipeline Form" visible="false" id="caption" />
+		<div class="card">
+			<div class="card-header">
+				<n:h5 class="panel-title">
+					<n:span class="fas fa-list" />
+					Portofolio List
+				</n:h5>
+			</div>
+			<div class="card-body">
+				<div zclass="row">
+					<div zclass="col">
+						<groupbox mold="3d" id="gbSearch">
+							<caption label="${labels.common.searching}"
+								image="/resources/images/search.png" />
+							<grid>
+								<columns>
+									<column width="150px" />
+									<column />
+								</columns>
+								<rows>
+									<row>
+										<label
+											value="${labels.pipeline.regid }" />
+										<textbox value="@bind(vm.regid)"
+											cols="13" maxlength="13" />
+									</row>
+								</rows>
+								<foot>
+									<footer />
+									<footer>
+										<div class="row">
+											<div class="col-md-6">
+												<n:div class="btn-group"
+													role="group">
+													<button
+														autodisable="self" sclass="btn btn-info btn-sm"
+														label="${labels.common.search}"
+														onClick="@command('doSearch')" />
+													<button
+														autodisable="self" sclass="btn btn-default btn-sm"
+														label="${labels.common.reset}"
+														onClick="@command('doReset')" />
+												</n:div>
+											</div>
+										</div>
+									</footer>
+								</foot>
+							</grid>
+						</groupbox>
+					</div>
+				</div>
+				<separator />
+				<div class="row">
+					<div class="col-md-10">
+						<paging id="paging" autohide="true" />
+					</div>
+					<div class="col-md-2" align="right">
+						<label value="${labels.common.totalrecord} :"
+							style="font-weight: bold" />
+						<label value="@load(vm.pageTotalSize)"
+							style="font-weight: bold" />
+					</div>
+				</div>
+				<listbox id="listbox"
+					emptyMessage="${labels.common.emptymsg}"
+					selectedItem="@bind(vm.objForm)">
+					<listhead>
+						<listheader label="${labels.common.no}"
+							align="right" width="40px" />
+						<listheader label="${labels.pipeline.regid }" />
+						<listheader label="${labels.pipeline.regtime }" />
+						<listheader label="${labels.debitur.debitur }" />
+						<listheader
+							label="${labels.sector.sectorname }" />
+						<listheader label="${labels.pipeline.project }" />
+						<listheader label="${labels.unit.unitname }" />
+						<listheader
+							label="${labels.pipeline.currency }" />
+						<listheader
+							label="${labels.pipeline.projectamount }" />
+						<listheader
+							label="${labels.pipeline.selfportion }" />
+						<listheader
+							label="${labels.pipeline.feepercent }" />
+						<listheader label="${labels.common.month }" />
+					</listhead>
+				</listbox>
+			</div>
+		</div>
+	</window>
+</zk>

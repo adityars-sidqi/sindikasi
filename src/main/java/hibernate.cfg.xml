@@ -40,6 +40,7 @@
 		<mapping class="com.sdd.sindikasi.domain.Musergroupmenu" />
 		<mapping class="com.sdd.sindikasi.domain.Mmenu" />
 		
+		<mapping class="com.sdd.sindikasi.domain.Mdeclinecode" />
 		<mapping class="com.sdd.sindikasi.domain.Mcurrency" />
 		<mapping class="com.sdd.sindikasi.domain.Mdebitur" />
 		<mapping class="com.sdd.sindikasi.domain.Mrm" />

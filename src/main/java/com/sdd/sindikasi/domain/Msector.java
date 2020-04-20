@@ -29,7 +29,6 @@ public class Msector implements Serializable {
 	private Date lastupdated;
 	private String sectorname;
 	private String updatedby;
-	private List<Tpipeline> tpipelines;
 
 	public Msector() {
 	}
@@ -74,29 +73,4 @@ public class Msector implements Serializable {
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
 	}
-
-	// bi-directional many-to-one association to Tpipeline
-	@OneToMany(mappedBy = "msector")
-	public List<Tpipeline> getTpipelines() {
-		return this.tpipelines;
-	}
-
-	public void setTpipelines(List<Tpipeline> tpipelines) {
-		this.tpipelines = tpipelines;
-	}
-
-	public Tpipeline addTpipeline(Tpipeline tpipeline) {
-		getTpipelines().add(tpipeline);
-		tpipeline.setMsector(this);
-
-		return tpipeline;
-	}
-
-	public Tpipeline removeTpipeline(Tpipeline tpipeline) {
-		getTpipelines().remove(tpipeline);
-		tpipeline.setMsector(null);
-
-		return tpipeline;
-	}
-
 }

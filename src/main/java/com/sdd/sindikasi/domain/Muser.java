@@ -15,6 +15,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Type;
+
 /**
  * The persistent class for the muser database table.
  * 
@@ -49,6 +52,8 @@ public class Muser implements Serializable {
 	}
 
 
+	@Column(length = 100)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getEmail() {
 		return this.email;
 	}
@@ -66,7 +71,8 @@ public class Muser implements Serializable {
 		this.lastupdated = lastupdated;
 	}
 
-
+	@Column(length = 70)
+	@Type(type = "com.sdd.utils.usertype.TrimUserType")
 	public String getPassword() {
 		return this.password;
 	}
@@ -75,7 +81,8 @@ public class Muser implements Serializable {
 		this.password = password;
 	}
 
-
+	@Column(length = 15)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getUpdatedby() {
 		return this.updatedby;
 	}
@@ -84,7 +91,8 @@ public class Muser implements Serializable {
 		this.updatedby = updatedby;
 	}
 
-
+	@Column(length = 50)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getUserid() {
 		return this.userid;
 	}
@@ -93,7 +101,8 @@ public class Muser implements Serializable {
 		this.userid = userid;
 	}
 
-
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getUsername() {
 		return this.username;
 	}
@@ -106,6 +115,7 @@ public class Muser implements Serializable {
 	//bi-directional many-to-one association to Musergroup
 	@ManyToOne
 	@JoinColumn(name="musergroupfk")
+	@ForeignKey(name = "MUSER_FK1")
 	public Musergroup getMusergroup() {
 		return this.musergroup;
 	}

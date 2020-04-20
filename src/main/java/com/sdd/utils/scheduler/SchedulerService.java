@@ -4,7 +4,7 @@ import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.WebAppCleanup;
 import org.zkoss.zk.ui.util.WebAppInit;
 
-import com.sdd.ecollection.handler.ScheduleManager;
+import com.sdd.sindikasi.handler.ScheduleManager;
 
 public class SchedulerService implements WebAppInit, WebAppCleanup {
 

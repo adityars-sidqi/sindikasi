@@ -31,7 +31,6 @@ public class Munit implements Serializable {
 	private String unitcostcenter;
 	private String unitname;
 	private String updatedby;
-	private List<Tpipeline> tpipelines;
 
 	public Munit() {
 	}
@@ -95,30 +94,6 @@ public class Munit implements Serializable {
 
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
-	}
-
-	// bi-directional many-to-one association to Tpipeline
-	@OneToMany(mappedBy = "munit")
-	public List<Tpipeline> getTpipelines() {
-		return this.tpipelines;
-	}
-
-	public void setTpipelines(List<Tpipeline> tpipelines) {
-		this.tpipelines = tpipelines;
-	}
-
-	public Tpipeline addTpipeline(Tpipeline tpipeline) {
-		getTpipelines().add(tpipeline);
-		tpipeline.setMunit(this);
-
-		return tpipeline;
-	}
-
-	public Tpipeline removeTpipeline(Tpipeline tpipeline) {
-		getTpipelines().remove(tpipeline);
-		tpipeline.setMunit(null);
-
-		return tpipeline;
 	}
 
 }

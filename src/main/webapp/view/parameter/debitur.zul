@@ -1,0 +1,159 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.MdebiturVm')"
+		validationMessages="@id('vmsgs')" style="padding:0px">
+		<div class="card"
+			form="@id('e') @load(vm.objForm) @save(vm.objForm, before='doSave') @validator(vm.validator)">
+			<div class="card-header">
+				<n:h5>Debitur</n:h5>
+			</div>
+			<div zclass="card-body p-0">
+				<n:table class="table table-striped table-sm m-0">
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.debitur}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.debitur)" cols="100"
+								maxlength="100" />
+							<label style="color:red"
+								value="@load(vmsgs['debitur'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.officephone}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.officephone)"
+								cols="40" maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['officephone'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.officefax}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.officefax)"
+								cols="40" maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['officefax'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.officeemail}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.officeemail)"
+								cols="100" maxlength="100"
+								constraint="/.+@.+\.[A-Za-z]+/: Please enter an e-mail address" />
+							<label style="color:red"
+								value="@load(vmsgs['officeemail'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.officeaddress}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.officeaddress)"
+								cols="50" rows="3" maxlength="200" />
+							<label style="color:red"
+								value="@load(vmsgs['officeaddress'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.dirname}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.dirname)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['dirname'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.dirphone}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.dirphone)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['dirphone'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.diremail}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.diremail)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['diremail'])" />
+						</n:td>
+					</n:tr>
+				</n:table>
+			</div>
+			<div class="card-footer">
+				<n:div class="btn-group btn-group-sm" role="group"
+					aria-label="Basic example">
+					<button id="btnSave" sclass="btn btn-primary btn-sm"
+						label="${labels.common.save}" onClick="@command('doSave')" />
+					<button id="btnCancel" sclass="btn btn-info btn-sm"
+						label="${labels.common.cancel}" onClick="@command('doCancel')" />
+					<button id="btnDelete"
+						sclass="btn btn-danger btn-sm" label="${labels.common.del}"
+						onClick="@command('doDelete')" />
+				</n:div>
+			</div>
+		</div>
+		<separator />
+		<div class="row">
+			<div class="col-md-10">
+				<paging id="paging" autohide="true" />
+			</div>
+			<div class="col-md-2" align="right">
+				<label value="${labels.common.totalrecord} :"
+					style="font-weight: bold" />
+				<label value="@load(vm.pageTotalSize)"
+					style="font-weight: bold" />
+			</div>
+		</div>
+		<listbox id="listbox" emptyMessage="${labels.common.emptymsg}"
+			selectedItem="@bind(vm.objForm)">
+			<listhead>
+				<listheader label="${labels.common.no}" align="right"
+					width="40px" />
+				<listheader sort="auto(debitur)">
+					<textbox inplace="true" class="cheader"
+						value="@bind(vm.debitur)" cols="100" maxlength="100"
+						placeholder="${labels.debitur.debitur }"
+						tooltiptext=" ${labels.common.searchonheader }"
+						onOK="@command('doSearch')" />
+				</listheader>
+				<listheader label="${labels.debitur.officephone }" />
+				<listheader label="${labels.debitur.officefax }" />
+				<listheader label="${labels.debitur.officeemail }" />
+				<listheader label="${labels.debitur.officeaddress }" />
+				<listheader sort="auto(dirname)">
+					<textbox inplace="true" class="cheader"
+						value="@bind(vm.dirname)" cols="40" maxlength="40"
+						placeholder="${labels.debitur.dirname }"
+						tooltiptext=" ${labels.common.searchonheader }"
+						onOK="@command('doSearch')" />
+				</listheader>
+				<listheader label="${labels.debitur.dirphone }" />
+				<listheader label="${labels.debitur.diremail }" />
+				<listheader label="${labels.common.updatedby }" />
+				<listheader label="${labels.common.lastupdated }" />
+			</listhead>
+		</listbox>
+	</window>
+</zk>

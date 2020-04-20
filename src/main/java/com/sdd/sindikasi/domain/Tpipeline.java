@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -49,7 +50,6 @@ public class Tpipeline implements Serializable {
 	private Mrm mrm;
 	private Msector msector;
 	private Munit munit;
-	private List<Tpipelinepart> tpipelineparts;
 
 	public Tpipeline() {
 	}
@@ -239,6 +239,7 @@ public class Tpipeline implements Serializable {
 	//bi-directional many-to-one association to Mdebitur
 	@ManyToOne
 	@JoinColumn(name="mdebiturfk")
+	@ForeignKey(name = "TPIPELINE_FK1")
 	public Mdebitur getMdebitur() {
 		return this.mdebitur;
 	}
@@ -251,6 +252,7 @@ public class Tpipeline implements Serializable {
 	//bi-directional many-to-one association to Mrm
 	@ManyToOne
 	@JoinColumn(name="mrmfk")
+	@ForeignKey(name = "TPIPELINE_FK4")
 	public Mrm getMrm() {
 		return this.mrm;
 	}
@@ -263,6 +265,7 @@ public class Tpipeline implements Serializable {
 	//bi-directional many-to-one association to Msector
 	@ManyToOne
 	@JoinColumn(name="msectorfk")
+	@ForeignKey(name = "TPIPELINE_FK2")
 	public Msector getMsector() {
 		return this.msector;
 	}
@@ -275,37 +278,13 @@ public class Tpipeline implements Serializable {
 	//bi-directional many-to-one association to Munit
 	@ManyToOne
 	@JoinColumn(name="munitfk")
+	@ForeignKey(name = "TPIPELINE_FK3")
 	public Munit getMunit() {
 		return this.munit;
 	}
 
 	public void setMunit(Munit munit) {
 		this.munit = munit;
-	}
-
-
-	//bi-directional many-to-one association to Tpipelinepart
-	@OneToMany(mappedBy="tpipeline")
-	public List<Tpipelinepart> getTpipelineparts() {
-		return this.tpipelineparts;
-	}
-
-	public void setTpipelineparts(List<Tpipelinepart> tpipelineparts) {
-		this.tpipelineparts = tpipelineparts;
-	}
-
-	public Tpipelinepart addTpipelinepart(Tpipelinepart tpipelinepart) {
-		getTpipelineparts().add(tpipelinepart);
-		tpipelinepart.setTpipeline(this);
-
-		return tpipelinepart;
-	}
-
-	public Tpipelinepart removeTpipelinepart(Tpipelinepart tpipelinepart) {
-		getTpipelineparts().remove(tpipelinepart);
-		tpipelinepart.setTpipeline(null);
-
-		return tpipelinepart;
 	}
 
 }
