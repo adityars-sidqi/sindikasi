@@ -21,6 +21,7 @@ public class AppUtils {
 
 	public static final String STATUS_WAITING_PROSES = "WP";
 	public static final String STATUS_WAITING_APPROVAL = "WA";
+	public static final String STATUS_PROGRESS = "PG";
 	public static final String STATUS_APPROVE = "AP";
 	public static final String STATUS_DECLINE = "DECLINE";
 	public static final String STATUS_DONE = "DN";

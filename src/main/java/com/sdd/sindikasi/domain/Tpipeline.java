@@ -26,7 +26,7 @@ import org.hibernate.annotations.Type;
  * 
  */
 @Entity
-@NamedQuery(name="Tpipeline.findAll", query="SELECT t FROM Tpipeline t")
+@NamedQuery(name = "Tpipeline.findAll", query = "SELECT t FROM Tpipeline t")
 public class Tpipeline implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tpipelinepk;
@@ -45,7 +45,6 @@ public class Tpipeline implements Serializable {
 	private String status;
 	private Date targetpk;
 	private String updatedby;
-	private List<Tmemo> tmemos;
 	private Mdebitur mdebitur;
 	private Mrm mrm;
 	private Msector msector;
@@ -54,10 +53,9 @@ public class Tpipeline implements Serializable {
 	public Tpipeline() {
 	}
 
-
 	@Id
-	@SequenceGenerator(name="TPIPELINE_TPIPELINEPK_GENERATOR", sequenceName="TPIPELINE_SEQ", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TPIPELINE_TPIPELINEPK_GENERATOR")
+	@SequenceGenerator(name = "TPIPELINE_TPIPELINEPK_GENERATOR", sequenceName = "TPIPELINE_SEQ", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TPIPELINE_TPIPELINEPK_GENERATOR")
 	@Column(unique = true, nullable = false)
 	public Integer getTpipelinepk() {
 		return this.tpipelinepk;
@@ -66,7 +64,6 @@ public class Tpipeline implements Serializable {
 	public void setTpipelinepk(Integer tpipelinepk) {
 		this.tpipelinepk = tpipelinepk;
 	}
-
 
 	public BigDecimal getCreditfacility() {
 		return this.creditfacility;
@@ -86,7 +83,6 @@ public class Tpipeline implements Serializable {
 		this.currency = currency;
 	}
 
-
 	public BigDecimal getFeeamount() {
 		return this.feeamount;
 	}
@@ -94,7 +90,6 @@ public class Tpipeline implements Serializable {
 	public void setFeeamount(BigDecimal feeamount) {
 		this.feeamount = feeamount;
 	}
-
 
 	public BigDecimal getFeepercent() {
 		return this.feepercent;
@@ -133,7 +128,6 @@ public class Tpipeline implements Serializable {
 		this.project = project;
 	}
 
-
 	public BigDecimal getProjectamount() {
 		return this.projectamount;
 	}
@@ -171,7 +165,6 @@ public class Tpipeline implements Serializable {
 		this.rmcredit = rmcredit;
 	}
 
-
 	public BigDecimal getSelfportion() {
 		return this.selfportion;
 	}
@@ -189,7 +182,6 @@ public class Tpipeline implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	@Temporal(TemporalType.DATE)
 	public Date getTargetpk() {
@@ -210,35 +202,9 @@ public class Tpipeline implements Serializable {
 		this.updatedby = updatedby;
 	}
 
-
-	//bi-directional many-to-one association to Tmemo
-	@OneToMany(mappedBy="tpipeline")
-	public List<Tmemo> getTmemos() {
-		return this.tmemos;
-	}
-
-	public void setTmemos(List<Tmemo> tmemos) {
-		this.tmemos = tmemos;
-	}
-
-	public Tmemo addTmemo(Tmemo tmemo) {
-		getTmemos().add(tmemo);
-		tmemo.setTpipeline(this);
-
-		return tmemo;
-	}
-
-	public Tmemo removeTmemo(Tmemo tmemo) {
-		getTmemos().remove(tmemo);
-		tmemo.setTpipeline(null);
-
-		return tmemo;
-	}
-
-
-	//bi-directional many-to-one association to Mdebitur
+	// bi-directional many-to-one association to Mdebitur
 	@ManyToOne
-	@JoinColumn(name="mdebiturfk")
+	@JoinColumn(name = "mdebiturfk")
 	@ForeignKey(name = "TPIPELINE_FK1")
 	public Mdebitur getMdebitur() {
 		return this.mdebitur;
@@ -248,10 +214,9 @@ public class Tpipeline implements Serializable {
 		this.mdebitur = mdebitur;
 	}
 
-
-	//bi-directional many-to-one association to Mrm
+	// bi-directional many-to-one association to Mrm
 	@ManyToOne
-	@JoinColumn(name="mrmfk")
+	@JoinColumn(name = "mrmfk")
 	@ForeignKey(name = "TPIPELINE_FK4")
 	public Mrm getMrm() {
 		return this.mrm;
@@ -261,10 +226,9 @@ public class Tpipeline implements Serializable {
 		this.mrm = mrm;
 	}
 
-
-	//bi-directional many-to-one association to Msector
+	// bi-directional many-to-one association to Msector
 	@ManyToOne
-	@JoinColumn(name="msectorfk")
+	@JoinColumn(name = "msectorfk")
 	@ForeignKey(name = "TPIPELINE_FK2")
 	public Msector getMsector() {
 		return this.msector;
@@ -274,10 +238,9 @@ public class Tpipeline implements Serializable {
 		this.msector = msector;
 	}
 
-
-	//bi-directional many-to-one association to Munit
+	// bi-directional many-to-one association to Munit
 	@ManyToOne
-	@JoinColumn(name="munitfk")
+	@JoinColumn(name = "munitfk")
 	@ForeignKey(name = "TPIPELINE_FK3")
 	public Munit getMunit() {
 		return this.munit;

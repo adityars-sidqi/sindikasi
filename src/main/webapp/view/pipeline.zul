@@ -269,7 +269,7 @@
 				<n:div class="btn-group" role="group">
 					<button id="btnSubmit" autodisable="self"
 						sclass="btn btn-sm btn-primary" label="${labels.common.submit}"
-						onClick="@command('doSubmit')" width="100px" />
+						onClick="@command('doSave')" width="100px" />
 				</n:div>
 			</div>
 		</div>

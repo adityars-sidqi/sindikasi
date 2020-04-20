@@ -1,6 +1,8 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
-<zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window id="windowPipeline"
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.IndexPipelineVm')">
+		<n:h4>Pipeline Dashboard</n:h4>
+		<n:hr></n:hr>
+	</window>
 </zk>

@@ -272,7 +272,7 @@ public class Tporto implements Serializable {
 		this.rmid = rmid;
 	}
 
-	@Column(length = 10)
+	@Column(length = 40)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getRmname() {
 		return this.rmname;

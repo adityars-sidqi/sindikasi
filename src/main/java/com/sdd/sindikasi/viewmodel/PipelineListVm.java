@@ -38,6 +38,7 @@ import com.sdd.sindikasi.domain.Muser;
 import com.sdd.sindikasi.domain.Tpipeline;
 import com.sdd.sindikasi.model.TpipelineListModel;
 import com.sdd.sindikasi.utils.AppData;
+import com.sdd.sindikasi.utils.AppUtils;
 import com.sdd.sindikasi.model.TpipelineListModel;
 import com.sdd.utils.SysUtils;
 
@@ -76,10 +77,10 @@ public class PipelineListVm {
 
 		oUser = (Muser) zkSession.getAttribute("oUser");
 
-		doReset();
-
 		if (arg != null)
 			this.arg = arg;
+
+		doReset();
 
 		paging.addEventListener("onPaging", new EventListener<Event>() {
 
@@ -134,7 +135,7 @@ public class PipelineListVm {
 					if (arg != null) {
 						map.put("arg", arg);
 					}
-					
+
 					Window win = (Window) Executions.createComponents("/view/pipeline.zul", null, map);
 					win.setWidth("90%");
 					win.setClosable(true);
@@ -176,6 +177,8 @@ public class PipelineListVm {
 	@NotifyChange("*")
 	public void doSearch() {
 		filter = "";
+		if (arg != null && arg.equals("APPROVAL"))
+			filter += "status = '" + AppUtils.STATUS_PROGRESS + "'";
 		if (regid != null && regid.trim().length() > 0) {
 			if (filter.length() > 0)
 				filter += " and ";

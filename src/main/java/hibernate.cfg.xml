@@ -39,7 +39,7 @@
 		<mapping class="com.sdd.sindikasi.domain.Musergroup" />
 		<mapping class="com.sdd.sindikasi.domain.Musergroupmenu" />
 		<mapping class="com.sdd.sindikasi.domain.Mmenu" />
-		
+
 		<mapping class="com.sdd.sindikasi.domain.Mdeclinecode" />
 		<mapping class="com.sdd.sindikasi.domain.Mcurrency" />
 		<mapping class="com.sdd.sindikasi.domain.Mdebitur" />
@@ -47,7 +47,7 @@
 		<mapping class="com.sdd.sindikasi.domain.Mrmgroup" />
 		<mapping class="com.sdd.sindikasi.domain.Msector" />
 		<mapping class="com.sdd.sindikasi.domain.Munit" />
-		
+
 		<mapping class="com.sdd.sindikasi.domain.Tmemo" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipeline" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipelinepart" />
@@ -55,9 +55,11 @@
 		<mapping class="com.sdd.sindikasi.domain.Tportopart" />
 		<mapping class="com.sdd.sindikasi.domain.Ttargetrm" />
 		<mapping class="com.sdd.sindikasi.domain.Ttargetrmgroup" />
-		
+
 		<mapping class="com.sdd.sindikasi.domain.Tcounterengine" />
 		<mapping class="com.sdd.sindikasi.domain.Tscheduler" />
+
+		<mapping class="com.sdd.sindikasi.domain.Vsummary" />
 
 	</session-factory>
 </hibernate-configuration>

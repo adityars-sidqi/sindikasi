@@ -41,13 +41,17 @@ public class AppData {
 			label = "DONE";
 		return label;
 	}
-	
+
 	public static String getStatusPipelineLabel(String code) {
 		String label = "";
-		if (code.equals(AppUtils.STATUS_WAITING_PROSES))
-			label = "WAITING PROSES";
-		else if (code.equals(AppUtils.STATUS_DONE))
-			label = "DONE";
+		if (code.equals(AppUtils.STATUS_WAITING_APPROVAL))
+			label = "WAITING APPROVAL";
+		else if (code.equals(AppUtils.STATUS_PROGRESS))
+			label = "PROGRESS";
+		else if (code.equals(AppUtils.STATUS_DECLINE))
+			label = "DECLINE";
+		else if (code.equals(AppUtils.STATUS_APPROVE))
+			label = "APPROVE";
 		return label;
 	}
 

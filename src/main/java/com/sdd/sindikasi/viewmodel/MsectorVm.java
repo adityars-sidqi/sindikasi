@@ -248,16 +248,11 @@ public class MsectorVm {
 
 			public void validate(ValidationContext ctx) {
 
-				String unitcode = (String) ctx.getProperties("unitcode")[0].getValue();
-				String unitname = (String) ctx.getProperties("unitname")[0].getValue();
-				String unitcostcenter = (String) ctx.getProperties("unitcostcenter")[0].getValue();
+				String sectorname = (String) ctx.getProperties("sectorname")[0].getValue();
 
-				if (unitcode == null || "".equals(unitcode.trim()))
-					this.addInvalidMessage(ctx, "unitcode", Labels.getLabel("common.validator.empty"));
-				if (unitname == null || "".equals(unitname.trim()))
-					this.addInvalidMessage(ctx, "unitname", Labels.getLabel("common.validator.empty"));
-				if (unitcostcenter == null || "".equals(unitcostcenter.trim()))
-					this.addInvalidMessage(ctx, "unitcostcenter", Labels.getLabel("common.validator.empty"));
+				if (sectorname == null || "".equals(sectorname.trim()))
+					this.addInvalidMessage(ctx, "sectorname", Labels.getLabel("common.validator.empty"));
+
 			}
 		};
 	}

@@ -255,6 +255,8 @@ public class MrmVm {
 		isInsert = true;
 		objForm = new Mrm();
 
+		cbRmgroup.setValue(null);
+
 		btnCancel.setDisabled(true);
 		btnDelete.setDisabled(true);
 		btnSave.setLabel(Labels.getLabel("common.save"));

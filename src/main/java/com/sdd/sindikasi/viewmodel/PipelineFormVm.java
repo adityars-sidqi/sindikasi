@@ -12,6 +12,8 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.zkoss.bind.ValidationContext;
+import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -19,6 +21,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.bind.validator.AbstractValidator;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
@@ -47,6 +50,7 @@ import com.sdd.sindikasi.dao.MrmDAO;
 import com.sdd.sindikasi.dao.MrmgroupDAO;
 import com.sdd.sindikasi.dao.MsectorDAO;
 import com.sdd.sindikasi.dao.MunitDAO;
+import com.sdd.sindikasi.dao.TcounterengineDAO;
 import com.sdd.sindikasi.dao.TmemoDAO;
 import com.sdd.sindikasi.dao.TpipelineDAO;
 import com.sdd.sindikasi.dao.TpipelinepartDAO;
@@ -136,6 +140,8 @@ public class PipelineFormVm {
 	@Wire
 	private Row rowDecline;
 	@Wire
+	private Button btnSubmit;
+	@Wire
 	private Window win;
 
 	@AfterCompose
@@ -150,12 +156,23 @@ public class PipelineFormVm {
 		if (obj != null) {
 			try {
 				isInsert = false;
+				caption.setVisible(true);
 				objForm = obj;
 				if (pageStartNumber != null)
 					this.pageStartNumber = pageStartNumber;
+
 				rowReg.setVisible(true);
-				if (arg != null && arg.equals("APPROVAL"))
+				if (arg != null && arg.equals("APPROVAL")) {
 					gbChangestatus.setVisible(true);
+					rowApprove.setVisible(false);
+					rowDecline.setVisible(false);
+				}
+
+				cbCurrency.setValue(objForm.getCurrency());
+				cbDebitur.setValue(objForm.getMdebitur().getDebitur());
+				cbRm.setValue(objForm.getMrm().getRmname());
+				cbUnit.setValue(objForm.getMunit().getUnitname());
+				cbSector.setValue(objForm.getMsector().getSectorname());
 
 				for (Tpipelinepart tpipelinepart : tpipelinepartDao
 						.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(), "participantname")) {
@@ -166,6 +183,7 @@ public class PipelineFormVm {
 						"createdtime")) {
 					doAddGridMemo(tmemo, objForm);
 				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -183,11 +201,15 @@ public class PipelineFormVm {
 			transaction = session.beginTransaction();
 
 			if (isInsert) {
-//				objForm.setRegid();
+				String regid = new TcounterengineDAO().getLastCounter("REGID");
+				objForm.setRegid(regid);
 				objForm.setRegtime(new Date());
+				objForm.setStatus(AppUtils.STATUS_PROGRESS);
 			} else {
 				if (objForm.getStatus().equals(AppUtils.STATUS_APPROVE)) {
 					Tporto tporto = new Tporto();
+					tporto.setRegid(objForm.getRegid());
+					tporto.setRegtime(objForm.getRegtime());
 					tporto.setMsector(objForm.getMsector());
 					tporto.setMunit(objForm.getMunit());
 					tporto.setDebitur(objForm.getMdebitur().getDebitur());
@@ -394,10 +416,21 @@ public class PipelineFormVm {
 	public void doReset() {
 		try {
 
+			objForm = new Tpipeline();
+
 			isInsert = true;
 			isSaved = false;
 			listPipelinepart = new ArrayList<Tpipelinepart>();
 			listMemo = new ArrayList<Tmemo>();
+			
+			gridMemo.getChildren().clear();
+			gridParticipant.getChildren().clear();
+			
+			cbDebitur.setValue(null);
+			cbRm.setValue(null);
+			cbSector.setValue(null);
+			cbStatus.setValue(null);
+			cbUnit.setValue(null);
 
 			rowReg.setVisible(false);
 
@@ -419,6 +452,58 @@ public class PipelineFormVm {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Validator getValidator() {
+		return new AbstractValidator() {
+
+			public void validate(ValidationContext ctx) {
+
+				Mdebitur mdebitur = (Mdebitur) ctx.getProperties("mdebitur")[0].getValue();
+				Msector msector = (Msector) ctx.getProperties("msector")[0].getValue();
+				String project = (String) ctx.getProperties("project")[0].getValue();
+				Mrm mrm = (Mrm) ctx.getProperties("mrm")[0].getValue();
+				String rmcredit = (String) ctx.getProperties("rmcredit")[0].getValue();
+				Munit munit = (Munit) ctx.getProperties("munit")[0].getValue();
+				String currency = (String) ctx.getProperties("currency")[0].getValue();
+				BigDecimal projectamount = (BigDecimal) ctx.getProperties("projectamount")[0].getValue();
+				BigDecimal creditfacility = (BigDecimal) ctx.getProperties("creditfacility")[0].getValue();
+				BigDecimal selfportion = (BigDecimal) ctx.getProperties("selfportion")[0].getValue();
+				BigDecimal feepercent = (BigDecimal) ctx.getProperties("feepercent")[0].getValue();
+				BigDecimal feeamount = (BigDecimal) ctx.getProperties("feeamount")[0].getValue();
+				Date targetpk = (Date) ctx.getProperties("targetpk")[0].getValue();
+				String notes = (String) ctx.getProperties("notes")[0].getValue();
+
+				if (mdebitur == null)
+					this.addInvalidMessage(ctx, "mdebitur", Labels.getLabel("common.validator.empty"));
+				if (msector == null)
+					this.addInvalidMessage(ctx, "msector", Labels.getLabel("common.validator.empty"));
+				if (project == null || "".equals(project.trim()))
+					this.addInvalidMessage(ctx, "project", Labels.getLabel("common.validator.empty"));
+				if (mrm == null)
+					this.addInvalidMessage(ctx, "mrm", Labels.getLabel("common.validator.empty"));
+				if (rmcredit == null || "".equals(rmcredit.trim()))
+					this.addInvalidMessage(ctx, "rmcredit", Labels.getLabel("common.validator.empty"));
+				if (munit == null)
+					this.addInvalidMessage(ctx, "munit", Labels.getLabel("common.validator.empty"));
+				if (currency == null || "".equals(currency.trim()))
+					this.addInvalidMessage(ctx, "currency", Labels.getLabel("common.validator.empty"));
+				if (projectamount == null || projectamount.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "projectamount", Labels.getLabel("common.validator.empty"));
+				if (creditfacility == null || creditfacility.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "creditfacility", Labels.getLabel("common.validator.empty"));
+				if (selfportion == null || selfportion.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "selfportion", Labels.getLabel("common.validator.empty"));
+				if (feepercent == null || feepercent.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "feepercent", Labels.getLabel("common.validator.empty"));
+				if (feeamount == null || feeamount.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "feeamount", Labels.getLabel("common.validator.empty"));
+				if (targetpk == null)
+					this.addInvalidMessage(ctx, "targetpk", Labels.getLabel("common.validator.empty"));
+				if (notes == null || "".equals(notes.trim()))
+					this.addInvalidMessage(ctx, "notes", Labels.getLabel("common.validator.empty"));
+			}
+		};
 	}
 
 	public ListModelList<Mdebitur> getMdebitur() {
