@@ -140,27 +140,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.zkoss.theme</groupId>
-			<artifactId>breeze</artifactId>
-			<version>${zk.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.theme</groupId>
-			<artifactId>atlantic</artifactId>
-			<version>${zk.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.theme</groupId>
-			<artifactId>sapphire</artifactId>
-			<version>${zk.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.theme</groupId>
-			<artifactId>silvertail</artifactId>
-			<version>${zk.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkex</artifactId>
 			<version>${zk.version}</version>

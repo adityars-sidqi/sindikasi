@@ -1,6 +1,78 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
-<zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+    <window
+            viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.ReportPortoVm')"
+            validationMessages="@id('vmsgs')">
+        <div class="card">
+            <div class="card-header">
+                <n:h5 class="panel-title">
+                    <n:span class="fas fa-list"/>
+                    Report Portofolio
+                </n:h5>
+            </div>
+            <div class="card-body">
+                <div zclass="row">
+                    <div class="col">
+                        <groupbox mold="3d" id="gbSearch">
+                            <caption label="${labels.common.searching}"
+                                     image="/resources/images/search.png"/>
+                            <grid>
+                                <columns>
+                                    <column width="150px"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label
+                                                value="${labels.sector.sectorname}"/>
+                                        <combobox id="cbSector"
+                                                  model="@load(vm.msectors)" width="100%"
+                                                  selectedItem="@bind(e.msector)">
+                                            <template name="model"
+                                                      var="msector">
+                                                <comboitem
+                                                        label="@load(msector.sectorname)"/>
+                                            </template>
+                                        </combobox>
+                                    </row>
+                                    <row>
+                                        <label value="${labels.unit.unitname }" />
+                                        <combobox id="cbUnit"
+                                                  model="@load(vm.munits)" width="100%"
+                                                  selectedItem="@bind(e.munit)">
+                                            <template name="model"
+                                                      var="munit">
+                                                <comboitem
+                                                        label="@load(munit.unitname)" />
+                                            </template>
+                                        </combobox>
+                                    </row>
+                                    <row>
+                                        <label value="${labels.common.month}" />
+                                        <datebox value="@bind(vm.month)" format="MMMM" />
+                                    </row>
+                                </rows>
+                                <foot>
+                                    <footer/>
+                                    <footer>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <n:div class="btn-group"
+                                                       role="group">
+                                                    <button image="/resousces/images/excel.png"
+                                                            autodisable="self" sclass="btn btn-success btn-sm"
+                                                            label="${labels.common.export.excel}"
+                                                            onClick="@command('doExport')"/>
+                                                </n:div>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </foot>
+                            </grid>
+                        </groupbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </window>
 </zk>
