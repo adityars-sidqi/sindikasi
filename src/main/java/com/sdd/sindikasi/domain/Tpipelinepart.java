@@ -2,6 +2,7 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,8 +29,17 @@ import org.hibernate.annotations.Type;
 public class Tpipelinepart implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tpipelinepartpk;
+	private String currency;
+	private String isself;
+	private BigDecimal kiidc;
+	private BigDecimal kipokok;
+	private BigDecimal kmk;
 	private Date lastupdated;
+	private BigDecimal ncl;
 	private String participantname;
+	private String picemail;
+	private String pichp;
+	private String picname;
 	private BigDecimal portionamount;
 	private BigDecimal portionpercent;
 	private String updatedby;
@@ -50,6 +60,50 @@ public class Tpipelinepart implements Serializable {
 		this.tpipelinepartpk = tpipelinepartpk;
 	}
 
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	@Column(length = 1)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getIsself() {
+		return isself;
+	}
+
+	public void setIsself(String isself) {
+		this.isself = isself;
+	}
+
+	public BigDecimal getKiidc() {
+		return kiidc;
+	}
+
+	public void setKiidc(BigDecimal kiidc) {
+		this.kiidc = kiidc;
+	}
+
+	public BigDecimal getKipokok() {
+		return kipokok;
+	}
+
+	public void setKipokok(BigDecimal kipokok) {
+		this.kipokok = kipokok;
+	}
+
+	public BigDecimal getKmk() {
+		return kmk;
+	}
+
+	public void setKmk(BigDecimal kmk) {
+		this.kmk = kmk;
+	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getLastupdated() {
 		return this.lastupdated;
@@ -57,6 +111,14 @@ public class Tpipelinepart implements Serializable {
 
 	public void setLastupdated(Date lastupdated) {
 		this.lastupdated = lastupdated;
+	}
+
+	public BigDecimal getNcl() {
+		return ncl;
+	}
+
+	public void setNcl(BigDecimal ncl) {
+		this.ncl = ncl;
 	}
 
 	@Column(length = 100)
@@ -67,6 +129,36 @@ public class Tpipelinepart implements Serializable {
 
 	public void setParticipantname(String participantname) {
 		this.participantname = participantname;
+	}
+
+	@Column(length = 100)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicemail() {
+		return picemail;
+	}
+
+	public void setPicemail(String picemail) {
+		this.picemail = picemail;
+	}
+
+	@Column(length = 20)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPichp() {
+		return pichp;
+	}
+
+	public void setPichp(String pichp) {
+		this.pichp = pichp;
+	}
+
+	@Column(length = 30)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicname() {
+		return picname;
+	}
+
+	public void setPicname(String picname) {
+		this.picname = picname;
 	}
 
 	public BigDecimal getPortionamount() {

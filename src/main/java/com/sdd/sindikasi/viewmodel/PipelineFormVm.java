@@ -423,8 +423,6 @@ public class PipelineFormVm {
 			listPipelinepart = new ArrayList<Tpipelinepart>();
 			listMemo = new ArrayList<Tmemo>();
 			
-			gridMemo.getChildren().clear();
-			gridParticipant.getChildren().clear();
 			
 			cbDebitur.setValue(null);
 			cbRm.setValue(null);

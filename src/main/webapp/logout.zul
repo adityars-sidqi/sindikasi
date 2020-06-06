@@ -52,10 +52,10 @@
 					<n:img src="resources/images/bni.png" class="img-fluid mr-3"
 						width="60px" height="30px">
 					</n:img>
-					<n:span>Powered By</n:span>
+					<!-- <n:span>Powered By</n:span>
 					<n:img src="resources/images/sdd.png" class="img-fluid"
 						width="60px" height="30px">
-					</n:img>
+					</n:img> -->
 				</div>
 			</div>
 			<div class="col-md-1 my-auto"></div>

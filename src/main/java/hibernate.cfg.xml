@@ -47,12 +47,19 @@
 		<mapping class="com.sdd.sindikasi.domain.Mrmgroup" />
 		<mapping class="com.sdd.sindikasi.domain.Msector" />
 		<mapping class="com.sdd.sindikasi.domain.Munit" />
+		<mapping class="com.sdd.sindikasi.domain.Magenttype" />
 
 		<mapping class="com.sdd.sindikasi.domain.Tmemo" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipeline" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipelinepart" />
+		<mapping class="com.sdd.sindikasi.domain.Tpipelinepartagent" />
 		<mapping class="com.sdd.sindikasi.domain.Tporto" />
+		<mapping class="com.sdd.sindikasi.domain.Tportoinvoice" />
 		<mapping class="com.sdd.sindikasi.domain.Tportopart" />
+		<mapping class="com.sdd.sindikasi.domain.Tportopartagent" />
+		<mapping class="com.sdd.sindikasi.domain.Tportopartdebt" />
+		<mapping class="com.sdd.sindikasi.domain.Tportopayment" />
+		<mapping class="com.sdd.sindikasi.domain.Tportopayschedule" />
 		<mapping class="com.sdd.sindikasi.domain.Ttargetrm" />
 		<mapping class="com.sdd.sindikasi.domain.Ttargetrmgroup" />
 

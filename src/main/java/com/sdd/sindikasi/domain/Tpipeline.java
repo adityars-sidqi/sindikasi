@@ -2,6 +2,7 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class Tpipeline implements Serializable {
 	private BigDecimal selfportion;
 	private String status;
 	private Date targetpk;
+	private String tranche;
 	private String updatedby;
 	private Mdebitur mdebitur;
 	private Mrm mrm;
@@ -190,6 +192,16 @@ public class Tpipeline implements Serializable {
 
 	public void setTargetpk(Date targetpk) {
 		this.targetpk = targetpk;
+	}
+	
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getTranche() {
+		return tranche;
+	}
+
+	public void setTranche(String tranche) {
+		this.tranche = tranche;
 	}
 
 	@Column(length = 30)

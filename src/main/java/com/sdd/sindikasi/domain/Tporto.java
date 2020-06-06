@@ -2,6 +2,7 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -36,11 +37,16 @@ public class Tporto implements Serializable {
 	private String diremail;
 	private String dirname;
 	private String dirphone;
+	private Date duedate;
 	private BigDecimal feeamount;
 	private BigDecimal feepercent;
+	private String isrestuctdebitur;
+	private String isrestuctproyeksi;
+	private BigDecimal lastincomebunga;
+	private BigDecimal lastincomefee;
+	private BigDecimal lastoutstanding;
 	private Date lastupdated;
-	private Msector msector;
-	private Munit munit;
+	private String nopk;
 	private String officeaddress;
 	private String officeemail;
 	private String officefax;
@@ -55,8 +61,13 @@ public class Tporto implements Serializable {
 	private String rmid;
 	private String rmname;
 	private BigDecimal selfportion;
+	private Date signdate;
+	private String sukubunga;
 	private Date targetpk;
+	private String tranche;
 	private String updatedby;
+	private Msector msector;
+	private Munit munit;
 
 	public Tporto() {
 	}
@@ -131,6 +142,15 @@ public class Tporto implements Serializable {
 		this.dirphone = dirphone;
 	}
 
+	@Temporal(TemporalType.DATE)
+	public Date getDuedate() {
+		return duedate;
+	}
+
+	public void setDuedate(Date duedate) {
+		this.duedate = duedate;
+	}
+
 	public BigDecimal getFeeamount() {
 		return this.feeamount;
 	}
@@ -147,6 +167,50 @@ public class Tporto implements Serializable {
 		this.feepercent = feepercent;
 	}
 
+	@Column(length = 1)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getIsrestuctdebitur() {
+		return isrestuctdebitur;
+	}
+
+	public void setIsrestuctdebitur(String isrestuctdebitur) {
+		this.isrestuctdebitur = isrestuctdebitur;
+	}
+
+	@Column(length = 1)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getIsrestuctproyeksi() {
+		return isrestuctproyeksi;
+	}
+
+	public void setIsrestuctproyeksi(String isrestuctproyeksi) {
+		this.isrestuctproyeksi = isrestuctproyeksi;
+	}
+
+	public BigDecimal getLastincomebunga() {
+		return lastincomebunga;
+	}
+
+	public void setLastincomebunga(BigDecimal lastincomebunga) {
+		this.lastincomebunga = lastincomebunga;
+	}
+
+	public BigDecimal getLastincomefee() {
+		return lastincomefee;
+	}
+
+	public void setLastincomefee(BigDecimal lastincomefee) {
+		this.lastincomefee = lastincomefee;
+	}
+
+	public BigDecimal getLastoutstanding() {
+		return lastoutstanding;
+	}
+
+	public void setLastoutstanding(BigDecimal lastoutstanding) {
+		this.lastoutstanding = lastoutstanding;
+	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getLastupdated() {
 		return this.lastupdated;
@@ -154,6 +218,16 @@ public class Tporto implements Serializable {
 
 	public void setLastupdated(Date lastupdated) {
 		this.lastupdated = lastupdated;
+	}
+
+	@Column(length = 20)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getNopk() {
+		return nopk;
+	}
+
+	public void setNopk(String nopk) {
+		this.nopk = nopk;
 	}
 
 	@Column(length = 200)
@@ -291,12 +365,41 @@ public class Tporto implements Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
+	public Date getSigndate() {
+		return signdate;
+	}
+
+	public void setSigndate(Date signdate) {
+		this.signdate = signdate;
+	}
+
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getSukubunga() {
+		return sukubunga;
+	}
+
+	public void setSukubunga(String sukubunga) {
+		this.sukubunga = sukubunga;
+	}
+
+	@Temporal(TemporalType.DATE)
 	public Date getTargetpk() {
 		return this.targetpk;
 	}
 
 	public void setTargetpk(Date targetpk) {
 		this.targetpk = targetpk;
+	}
+
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getTranche() {
+		return tranche;
+	}
+
+	public void setTranche(String tranche) {
+		this.tranche = tranche;
 	}
 
 	@Column(length = 30)

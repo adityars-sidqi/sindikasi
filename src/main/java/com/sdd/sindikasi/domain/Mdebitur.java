@@ -22,7 +22,7 @@ import org.hibernate.annotations.Type;
  * 
  */
 @Entity
-@NamedQuery(name="Mdebitur.findAll", query="SELECT m FROM Mdebitur m")
+@NamedQuery(name = "Mdebitur.findAll", query = "SELECT m FROM Mdebitur m")
 public class Mdebitur implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer mdebiturpk;
@@ -30,6 +30,7 @@ public class Mdebitur implements Serializable {
 	private String diremail;
 	private String dirname;
 	private String dirphone;
+	private String kolektibilitas;
 	private Date lastupdated;
 	private String officeaddress;
 	private String officeemail;
@@ -40,10 +41,9 @@ public class Mdebitur implements Serializable {
 	public Mdebitur() {
 	}
 
-
 	@Id
-	@SequenceGenerator(name="MDEBITUR_MDEBITURPK_GENERATOR", sequenceName="MDEBITUR_SEQ", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MDEBITUR_MDEBITURPK_GENERATOR")
+	@SequenceGenerator(name = "MDEBITUR_MDEBITURPK_GENERATOR", sequenceName = "MDEBITUR_SEQ", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MDEBITUR_MDEBITURPK_GENERATOR")
 	@Column(unique = true, nullable = false)
 	public Integer getMdebiturpk() {
 		return this.mdebiturpk;
@@ -91,6 +91,16 @@ public class Mdebitur implements Serializable {
 
 	public void setDirphone(String dirphone) {
 		this.dirphone = dirphone;
+	}
+
+	@Column(length = 1)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getKolektibilitas() {
+		return kolektibilitas;
+	}
+
+	public void setKolektibilitas(String kolektibilitas) {
+		this.kolektibilitas = kolektibilitas;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
