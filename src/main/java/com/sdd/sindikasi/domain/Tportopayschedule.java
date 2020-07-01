@@ -2,6 +2,7 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -101,5 +102,37 @@ public class Tportopayschedule implements Serializable {
 	public void setTporto(Tporto tporto) {
 		this.tporto = tporto;
 	}
+	
+	public static Comparator<Tportopayschedule> payScheduleComparator1 = new Comparator<Tportopayschedule>() {
+
+		public int compare(Tportopayschedule obj1, Tportopayschedule obj2) {
+
+			String id1 = obj1.getTporto().getDebitur();
+			String id2 = obj2.getTporto().getProject();
+
+			// ascending order
+			return id1.compareTo(id2);
+
+			// descending order
+			// return id2.compareTo(id1);
+		}
+
+	};
+	
+	public static Comparator<Tportopayschedule> payScheduleComparator2 = new Comparator<Tportopayschedule>() {
+
+		public int compare(Tportopayschedule obj1, Tportopayschedule obj2) {
+
+			String id1 = obj1.getTporto().getDebitur();
+			String id2 = obj2.getPaytype();
+
+			// ascending order
+			return id1.compareTo(id2);
+
+			// descending order
+			// return id2.compareTo(id1);
+		}
+
+	};
 
 }

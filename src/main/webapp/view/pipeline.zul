@@ -76,10 +76,6 @@
 											label="@load(mrm.rmname)" />
 									</template>
 								</combobox>
-								<label
-									value="${labels.pipeline.rmcredit }" />
-								<textbox width="100%"
-									value="@bind(e.rmcredit)" maxlength="40" />
 								<label value="${labels.unit.unitname }" />
 								<combobox id="cbUnit"
 									model="@load(vm.munit)" width="100%"
@@ -90,6 +86,8 @@
 											label="@load(munit.unitname)" />
 									</template>
 								</combobox>
+								<div />
+								<div />
 							</row>
 							<row>
 								<label
@@ -102,29 +100,85 @@
 								<decimalbox
 									value="@bind(e.projectamount)" format="#,###" width="100%" />
 								<label
-									value="${labels.pipeline.creditfacility }" />
+									value="${labels.pipeline.selfportion }" />
 								<decimalbox
-									value="@bind(e.creditfacility)" format="#,###" width="100%" />
+									value="@bind(vm.selfportionamount)" readonly="true"
+									format="#,###" width="100%" />
 							</row>
 							<row>
 								<label
-									value="${labels.pipeline.selfportion }" />
-								<decimalbox value="@bind(e.selfportion)"
-									format="#,###" width="100%" />
+									value="${labels.pipelinepart.kipokok }" />
+								<decimalbox
+									value="@bind(vm.objPipelinepart.kipokok)" format="#,###"
+									width="100%"
+									onChange="@command('doCalculate', amount=vm.objPipelinepart.kipokok)" />
 								<label
-									value="${labels.pipeline.feepercent }" />
-								<decimalbox value="@bind(e.feepercent)"
-									format="#,###" width="100%" />
+									value="${labels.pipelinepart.kiidc}" />
+								<decimalbox
+									value="@bind(vm.objPipelinepart.kiidc)" format="#,###"
+									width="100%"
+									onChange="@command('doCalculate', amount=vm.objPipelinepart.kiidc)" />
+								<label
+									value="${labels.pipelinepart.kmk}" />
+								<decimalbox
+									value="@bind(vm.objPipelinepart.kmk)" format="#,###"
+									width="100%"
+									onChange="@command('doCalculate', amount=vm.objPipelinepart.kmk)" />
+							</row>
+							<row>
+								<label
+									value="${labels.pipelinepart.ncl }" />
+								<decimalbox
+									value="@bind(vm.objPipelinepart.ncl)" format="#,###"
+									width="100%"
+									onChange="@command('doCalculate', amount=vm.objPipelinepart.ncl)" />
+								<label
+									value="${labels.agenttype.agentcode }" />
+								<div>
+									<grid id="gridAgentself"
+										emptyMessage="${labels.common.emptymsg}">
+										<columns>
+											<column align="center"
+												width="70px">
+												<checkbox
+													id="chkAllagentself"
+													onCheck="@command('doCheckedallAgentself', checked=self.checked)" />
+											</column>
+											<column
+												label="${labels.agenttype.agentcode}" />
+										</columns>
+										<rows />
+									</grid>
+								</div>
 								<label
 									value="${labels.pipeline.feeamount }" />
 								<decimalbox value="@bind(e.feeamount)"
 									format="#,###" width="100%" />
 							</row>
-							<row spans="1,1,1,3">
+							<row>
+								<label
+									value="${labels.pipelinepart.picname }" />
+								<textbox
+									value="@bind(vm.objPipelinepart.picname)" maxlength="30" />
+								<label
+									value="${labels.pipelinepart.pichp}" />
+								<textbox
+									value="@bind(vm.objPipelinepart.pichp)" maxlength="20" />
+								<label
+									value="${labels.pipelinepart.picemail}" />
+								<textbox
+									value="@bind(vm.objPipelinepart.picemail)" maxlength="100"
+									constraint="/.+@.+\.[A-Za-z]+/: Please enter an e-mail address" />
+							</row>
+							<row>
 								<label
 									value="${labels.pipeline.targetpk }" />
 								<datebox value="@bind(e.targetpk)"
 									format="dd-MM-yyyy" width="100%" />
+								<label
+									value="${labels.pipeline.tranche}" />
+								<textbox value="@bind(e.tranche)"
+									maxlength="40" width="100%" />
 								<label
 									value="${labels.pipeline.notes }" />
 								<textbox value="@bind(e.notes)"
@@ -153,13 +207,76 @@
 								<textbox
 									value="@bind(vm.participantname)" maxlength="100" width="100%" />
 								<label
-									value="${labels.pipelinepart.portionpercent}" />
-								<decimalbox
-									value="@bind(vm.portionpercent)" format="#,###" width="100%" />
+									value="${labels.currency.currencycode}" />
+								<combobox id="cbCurrencypart"
+									selectedItem="@bind(vm.currencypart)" width="100%">
+								</combobox>
 								<label
 									value="${labels.pipelinepart.portionamount}" />
 								<decimalbox
-									value="@bind(vm.portionamount)" format="#,###" width="100%" />
+									value="@bind(vm.portionamount)" format="#,###" width="100%"
+									readonly="true" />
+							</row>
+							<row>
+								<label
+									value="${labels.pipelinepart.kipokok }" />
+								<decimalbox value="@bind(vm.kipokok)"
+									format="#,###" width="100%"
+									onChange="@command('doCalculatePart', amount=vm.kipokok)" />
+								<label
+									value="${labels.pipelinepart.kiidc}" />
+								<decimalbox value="@bind(vm.kiidc)"
+									format="#,###" width="100%"
+									onChange="@command('doCalculatePart', amount=vm.kiidc)" />
+								<label
+									value="${labels.pipelinepart.kmk}" />
+								<decimalbox value="@bind(vm.kmk)"
+									format="#,###" width="100%"
+									onChange="@command('doCalculatePart', amount=vm.kmk)" />
+							</row>
+							<row>
+								<label
+									value="${labels.pipelinepart.ncl }" />
+								<decimalbox value="@bind(vm.ncl)"
+									format="#,###" width="100%"
+									onChange="@command('doCalculatePart', amount=vm.ncl)" />
+								<label
+									value="${labels.agenttype.agentcode }" />
+								<div>
+									<grid id="gridAgent"
+										emptyMessage="${labels.common.emptymsg}">
+										<columns>
+											<column align="center"
+												width="70px">
+												<checkbox
+													id="chkAllagent"
+													onCheck="@command('doCheckedallAgent', checked=self.checked)" />
+											</column>
+											<column
+												label="${labels.agenttype.agentcode}" />
+										</columns>
+										<rows />
+									</grid>
+								</div>
+								<label
+									value="${labels.pipelinepart.feeamount }" />
+								<decimalbox value="@bind(vm.feeamount)"
+									format="#,###" width="100%" />
+							</row>
+							<row>
+								<label
+									value="${labels.pipelinepart.picname }" />
+								<textbox value="@bind(vm.picname)"
+									maxlength="30" />
+								<label
+									value="${labels.pipelinepart.pichp}" />
+								<textbox value="@bind(vm.pichp)"
+									maxlength="20" />
+								<label
+									value="${labels.pipelinepart.picemail}" />
+								<textbox value="@bind(vm.picemail)"
+									maxlength="100"
+									constraint="/.+@.+\.[A-Za-z]+/: Please enter an e-mail address" />
 							</row>
 						</rows>
 						<foot>
@@ -174,15 +291,37 @@
 					<separator />
 
 					<grid id="gridParticipant"
+						sclass="table table-bordered"
 						emptyMessage="${labels.common.emptymsg}">
 						<columns>
 							<column
-								label="${labels.pipelinepart.participantname}" />
+								label="${labels.pipelinepart.participantname}" width="200px" />
+							<!-- <column
+								label="${labels.pipelinepart.portionpercent}" width="150px" /> -->
 							<column
-								label="${labels.pipelinepart.portionpercent}" />
+								label="${labels.pipelinepart.portionamount}" width="200px"
+								align="right" />
 							<column
-								label="${labels.pipelinepart.portionamount}" />
-							<column label="${labels.common.action }" />
+								label="${labels.pipelinepart.kipokok }" width="200px"
+								align="right" />
+							<column
+								label="${labels.pipelinepart.kiidc }" width="200px"
+								align="right" />
+							<column label="${labels.pipelinepart.kmk }"
+								width="200px" align="right" />
+							<column label="${labels.pipelinepart.ncl }"
+								width="200px" align="right" />
+							<column
+								label="${labels.pipelinepart.feeamount }" width="200px"
+								align="right" />
+							<column
+								label="${labels.pipelinepart.picname }" width="300px" />
+							<column
+								label="${labels.pipelinepart.pichp }" width="200px" />
+							<column
+								label="${labels.pipelinepart.picemail }" width="250px" />
+							<column label="${labels.common.action }"
+								align="center" width="350px" />
 						</columns>
 						<rows />
 					</grid>

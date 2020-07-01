@@ -1,0 +1,78 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window id="win"
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.PortofolioFormVm')"
+		validationMessages="@id('vmsgs')">
+		<caption label="Portofolio Form" visible="false" id="caption" />
+		<div class="card">
+			<div class="card-header">
+				<n:h5 class="panel-title">
+					<n:span class="far fa-check-square" />
+					Portofolio Form
+				</n:h5>
+			</div>
+			<div class="card-body">
+				<groupbox mold="3d">
+					<caption label="Debitur Data" />
+					<grid
+						zclass="table table-striped table-sm mb-0 p-0">
+						<columns>
+							<column width="150px" />
+							<column />
+							<column width="150px" />
+							<column />
+							<column width="150px" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label
+									value="${labels.debitur.debitur}" />
+								<textbox />
+								<label
+									value="${labels.debitur.officephone }" />
+								<textbox />
+								<label
+									value="${labels.debitur.officefax }" />
+								<textbox />
+							</row>
+							<row spans="1,1,1,1,2">
+								<label
+									value="${labels.debitur.officeemail }" />
+								<textbox />
+								<label
+									value="${labels.debitur.officeaddress }" />
+								<textbox />
+								<div />
+							</row>
+							<row>
+								<label value="${labels.debitur.dirname }" />
+								<textbox />
+								<label value="${labels.debitur.dirphone }" />
+								<textbox />
+								<label value="${labels.debitur.diremail }" />
+								<textbox/>
+							</row>
+						</rows>
+					</grid>
+				</groupbox>
+				<separator />
+				<groupbox mold="3d">
+					<caption label="Portofolio Participant" />
+					<grid
+						zclass="table table-striped table-sm mb-0 p-0">
+						<columns>
+							<column width="150px" />
+							<column />
+							<column width="150px" />
+							<column />
+							<column width="150px" />
+							<column />
+						</columns>
+						<rows></rows>
+					</grid>
+				</groupbox>
+			</div>
+		</div>
+	</window>
+</zk>

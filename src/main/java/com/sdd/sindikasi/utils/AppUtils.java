@@ -30,6 +30,24 @@ public class AppUtils {
 
 	public static final Integer FILESTATUS_SENT = 1;
 	public static final Integer FILESTATUS_FAIL = -1;
+	
+	public static final String PAYTYPE_POKOK = "1";
+	public static final String PAYTYPE_BUNGA = "2";
+	public static final String PAYTYPE_FEE = "3";
+	
+	public static final String PARAM_GROUP_COMPANYDATA = "COMPANYDATA";
+	public static final String PARAM_COMPANYNAME = "COMPANYNAME";
+	public static final String PARAM_DIVISINAME = "DIVISINAME";
+	public static final String PARAM_GROUPNAME = "GROUPNAME";
+	public static final String PARAM_ADDRESS1 = "ADDRESS1";
+	public static final String PARAM_ADDRESS2 = "ADDRESS2";
+	public static final String PARAM_ADDRESS3 = "ADDRESS3";
+	public static final String PARAM_ADDRESS4 = "ADDRESS4";
+	public static final String PARAM_CITY = "CITY";
+	public static final String PARAM_PEMIMPIN = "PEMIMPIN";
+	
+	public static final String PATH_RESOURCES_IMAGE = "/resources/images";
+	public static final String PATH_TMP = "/tmp";
 
 	public static final String[] COLORS = { "danger-color-dark", "warning-color-dark", "success-color-dark",
 			"info-color-dark" };

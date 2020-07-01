@@ -30,6 +30,7 @@ public class Tportopart implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tportopartpk;
 	private String currency;
+	private BigDecimal feeamount;
 	private String isself;
 	private BigDecimal kiidc;
 	private BigDecimal kipokok;
@@ -73,7 +74,15 @@ public class Tportopart implements Serializable {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	
+
+	public BigDecimal getFeeamount() {
+		return this.feeamount;
+	}
+
+	public void setFeeamount(BigDecimal feeamount) {
+		this.feeamount = feeamount;
+	}
+
 	@Column(length = 1)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getIsself() {

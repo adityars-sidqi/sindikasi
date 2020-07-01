@@ -27,7 +27,7 @@ import org.hibernate.annotations.Type;
 @NamedQuery(name = "Tportopayment.findAll", query = "SELECT t FROM Tportopayment t")
 public class Tportopayment implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Integer tportopayschedulepk;
+	private Integer tportopaymentpk;
 	private String currency;
 	private Date lastupdated;
 	private BigDecimal payamount;
@@ -43,12 +43,12 @@ public class Tportopayment implements Serializable {
 	@SequenceGenerator(name = "TPORTOPAYMENT_TPORTOPAYSCHEDULEPK_GENERATOR", sequenceName = "TPORTOPAYMENT_SEQ", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TPORTOPAYMENT_TPORTOPAYSCHEDULEPK_GENERATOR")
 	@Column(unique = true, nullable = false)
-	public Integer getTportopayschedulepk() {
-		return this.tportopayschedulepk;
+	public Integer getTportopaymentpk() {
+		return tportopaymentpk;
 	}
 
-	public void setTportopayschedulepk(Integer tportopayschedulepk) {
-		this.tportopayschedulepk = tportopayschedulepk;
+	public void setTportopaymentpk(Integer tportopaymentpk) {
+		this.tportopaymentpk = tportopaymentpk;
 	}
 
 	@Column(length = 5)

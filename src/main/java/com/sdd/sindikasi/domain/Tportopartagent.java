@@ -29,8 +29,6 @@ import org.hibernate.annotations.Type;
 public class Tportopartagent implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tportopartagentpk;
-	private String currency;
-	private BigDecimal feeamount;
 	private Date lastupdated;
 	private String updatedby;
 	private Magenttype magenttype;
@@ -49,25 +47,7 @@ public class Tportopartagent implements Serializable {
 
 	public void setTportopartagentpk(Integer tportopartagentpk) {
 		this.tportopartagentpk = tportopartagentpk;
-	}
-
-	@Column(length = 5)
-	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
-	public String getCurrency() {
-		return this.currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	public BigDecimal getFeeamount() {
-		return this.feeamount;
-	}
-
-	public void setFeeamount(BigDecimal feeamount) {
-		this.feeamount = feeamount;
-	}
+	}	
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getLastupdated() {

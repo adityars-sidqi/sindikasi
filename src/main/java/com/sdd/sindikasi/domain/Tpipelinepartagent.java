@@ -29,8 +29,6 @@ import org.hibernate.annotations.Type;
 public class Tpipelinepartagent implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tpipelinepartagentpk;
-	private String currency;
-	private BigDecimal feeamount;
 	private Date lastupdated;
 	private String updatedby;
 	private Magenttype magenttype;
@@ -50,24 +48,7 @@ public class Tpipelinepartagent implements Serializable {
 	public void setTpipelinepartagentpk(Integer tpipelinepartagentpk) {
 		this.tpipelinepartagentpk = tpipelinepartagentpk;
 	}
-
-	@Column(length = 5)
-	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
-	public String getCurrency() {
-		return this.currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	public BigDecimal getFeeamount() {
-		return this.feeamount;
-	}
-
-	public void setFeeamount(BigDecimal feeamount) {
-		this.feeamount = feeamount;
-	}
+	
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getLastupdated() {

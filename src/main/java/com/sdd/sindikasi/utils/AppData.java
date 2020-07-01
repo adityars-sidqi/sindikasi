@@ -7,6 +7,7 @@ import com.sdd.sindikasi.dao.MuserDAO;
 import com.sdd.sindikasi.dao.MusergroupDAO;
 import com.sdd.sindikasi.domain.Muser;
 import com.sdd.sindikasi.domain.Musergroup;
+import com.sdd.utils.StringUtils;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Combobox;
@@ -54,6 +55,28 @@ public class AppData {
 			label = "APPROVE";
 		return label;
 	}
+	
+	public static String getPaytypeLabel(String code) {
+		String label = "";
+		if (code.equals(AppUtils.PAYTYPE_POKOK))
+			label = "POKOK";
+		else if (code.equals(AppUtils.PAYTYPE_BUNGA))
+			label = "BUNGA";
+		else if (code.equals(AppUtils.PAYTYPE_FEE))
+			label = "FEE";
+		return label;
+	}
+	
+	public static String getMonthPaySchedule(String months) {
+		String label = "";
+		String[] arMonth = months.split("\\;");
+		for (String month: arMonth) {
+			label += StringUtils.getMonthshortLabel(Integer.parseInt(month)) + " ";
+		}
+		if (label.length() > 0)
+			label = label.substring(0, label.length()-1);
+		return label;
+	}	
 
 	public static void doDisableComponent(Boolean value, Div divRoot) {
 		// for dibawah ini akan iterasi isi divForm
