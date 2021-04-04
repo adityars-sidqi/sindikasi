@@ -15,10 +15,10 @@
 
 		</north>
 		<west border="none" collapsible="true" width="220px"
-			splittable="true">
+			splittable="true" title="SDK System">
 			<div id="divMenu" height="100%">
 				<vlayout height="100%">
-					<tree id="tree" vflex="true"
+					<tree id="tree" vflex="true" 
 						style="background-color: #edfff8;">
 
 						<treecols style="background-color: #edfff8; ">

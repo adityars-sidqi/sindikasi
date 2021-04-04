@@ -79,7 +79,7 @@ public class MmenuDAO {
 	public List<Mmenu> startsWith(int maxrow, String value) {
 		List<Mmenu> oList = new ArrayList<Mmenu>();
        	session = StoreHibernateUtil.openSession();
-       oList = session.createSQLQuery("select top "+ maxrow + " * from Mmenu where upper(menuname) like '%" + value + "%' order by menuname").addEntity(Mmenu.class).list();
+       	oList = session.createSQLQuery("select * from Mmenu where upper(menuname) like '%" + value + "%' order by menuname limit " + maxrow).addEntity(Mmenu.class).list();
         session.close();
         return oList;
 	}

@@ -1,5 +1,7 @@
 package com.sdd.sindikasi.utils;
 
+import java.math.BigDecimal;
+
 public class AppUtils {
 
 	public static final int JOBID_DIGIT_LENGTH = 4;
@@ -51,4 +53,6 @@ public class AppUtils {
 
 	public static final String[] COLORS = { "danger-color-dark", "warning-color-dark", "success-color-dark",
 			"info-color-dark" };
+	
+	public static final BigDecimal AMOUNT_DIVIDER = new BigDecimal(1000000); 
 }

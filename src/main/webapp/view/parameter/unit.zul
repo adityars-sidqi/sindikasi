@@ -33,7 +33,7 @@
 						</n:td>
 					</n:tr>
 					<n:tr>
-						<n:td width="200px">
+						<n:td>
 							${labels.unit.unitcostcenter}
 						</n:td>
 						<n:td>
@@ -41,6 +41,17 @@
 								cols="10" maxlength="10" />
 							<label style="color:red"
 								value="@load(vmsgs['unitcostcenter'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td>
+							Instansi
+						</n:td>
+						<n:td>
+							<radiogroup selectedItem="@bind(e.isbumn)">
+								<radio value="Y" label="BUMN" />
+								<radio value="N" label="Non BUMN" />
+							</radiogroup>
 						</n:td>
 					</n:tr>
 				</n:table>
@@ -90,8 +101,9 @@
 						onOK="@command('doSearch')" />
 				</listheader>
 				<listheader label="${labels.unit.unitcostcenter }" />
-				<listheader label="${labels.common.updatedby }" />
-				<listheader label="${labels.common.lastupdated }" />
+				<listheader label="Instansi" />
+				<listheader label="${labels.common.updatedby }" width="150px" />
+				<listheader label="${labels.common.lastupdated }" align="center" width="150px" />
 			</listhead>
 		</listbox>
 	</window>

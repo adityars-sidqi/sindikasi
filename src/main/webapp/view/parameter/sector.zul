@@ -16,7 +16,7 @@
 						</n:td>
 						<n:td>
 							<textbox value="@bind(e.sectorname)"
-								cols="50" maxlength="50" />
+								cols="100" maxlength="100" />
 							<label style="color:red"
 								value="@load(vmsgs['sectorname'])" />
 						</n:td>
@@ -60,8 +60,8 @@
 						tooltiptext=" ${labels.common.searchonheader }"
 						onOK="@command('doSearch')" />
 				</listheader>
-				<listheader label="${labels.common.updatedby }" />
-				<listheader label="${labels.common.lastupdated }" />
+				<listheader label="${labels.common.updatedby }" width="150px" />
+				<listheader label="${labels.common.lastupdated }" align="center" width="150px" />
 			</listhead>
 		</listbox>
 	</window>

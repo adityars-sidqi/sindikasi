@@ -31,6 +31,10 @@ public class Tpipelinepart implements Serializable {
 	private Integer tpipelinepartpk;
 	private String currency;
 	private BigDecimal feeamount;
+	private String feecurrency;
+	private String isagentcol;
+	private String isagentesc;
+	private String isagentfac;
 	private String isself;
 	private BigDecimal kiidc;
 	private BigDecimal kipokok;
@@ -79,6 +83,40 @@ public class Tpipelinepart implements Serializable {
 		this.feeamount = feeamount;
 	}
 	
+	
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getFeecurrency() {
+		return feecurrency;
+	}
+
+	public void setFeecurrency(String feecurrency) {
+		this.feecurrency = feecurrency;
+	}
+	
+	public String getIsagentcol() {
+		return isagentcol;
+	}
+
+	public void setIsagentcol(String isagentcol) {
+		this.isagentcol = isagentcol;
+	}
+
+	public String getIsagentesc() {
+		return isagentesc;
+	}
+
+	public void setIsagentesc(String isagentesc) {
+		this.isagentesc = isagentesc;
+	}
+
+	public String getIsagentfac() {
+		return isagentfac;
+	}
+
+	public void setIsagentfac(String isagentfac) {
+		this.isagentfac = isagentfac;
+	}
+
 	@Column(length = 1)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getIsself() {

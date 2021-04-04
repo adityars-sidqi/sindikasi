@@ -2,9 +2,7 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
@@ -31,22 +27,32 @@ import org.hibernate.annotations.Type;
 public class Tpipeline implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tpipelinepk;
-	private BigDecimal creditfacility;
-	private String currency;
+	private BigDecimal creditfacility;	
+	private String creditfacilitycurr;
+	private int creditplan;
 	private BigDecimal feeamount;
+	private String feecurrency;
 	private BigDecimal feepercent;
+	private String isagentcol;
+	private String isagentesc;
+	private String isagentfac;
 	private Date lastupdated;
 	private String notes;
 	private String project;
 	private BigDecimal projectamount;
+	private String projectcurrency;
 	private String regid;
 	private Date regtime;
 	private String rmcredit;
 	private BigDecimal selfportion;
+	private String selfportioncurrency;
 	private String status;
 	private Date targetpk;
 	private String tranche;
 	private String updatedby;
+	private int yearperiod;
+	private int monthperiod;
+	private String qperiod;
 	private Mdebitur mdebitur;
 	private Mrm mrm;
 	private Msector msector;
@@ -77,12 +83,21 @@ public class Tpipeline implements Serializable {
 
 	@Column(length = 5)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
-	public String getCurrency() {
-		return this.currency;
+	public String getCreditfacilitycurr() {
+		return creditfacilitycurr;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
+	public void setCreditfacilitycurr(String creditfacilitycurr) {
+		this.creditfacilitycurr = creditfacilitycurr;
+	}
+
+	
+	public int getCreditplan() {
+		return creditplan;
+	}
+
+	public void setCreditplan(int creditplan) {
+		this.creditplan = creditplan;
 	}
 
 	public BigDecimal getFeeamount() {
@@ -93,12 +108,47 @@ public class Tpipeline implements Serializable {
 		this.feeamount = feeamount;
 	}
 
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getFeecurrency() {
+		return feecurrency;
+	}
+
+	public void setFeecurrency(String feecurrency) {
+		this.feecurrency = feecurrency;
+	}
+
 	public BigDecimal getFeepercent() {
 		return this.feepercent;
 	}
 
 	public void setFeepercent(BigDecimal feepercent) {
 		this.feepercent = feepercent;
+	}
+	
+	
+	public String getIsagentcol() {
+		return isagentcol;
+	}
+
+	public void setIsagentcol(String isagentcol) {
+		this.isagentcol = isagentcol;
+	}
+
+	public String getIsagentesc() {
+		return isagentesc;
+	}
+
+	public void setIsagentesc(String isagentesc) {
+		this.isagentesc = isagentesc;
+	}
+
+	public String getIsagentfac() {
+		return isagentfac;
+	}
+
+	public void setIsagentfac(String isagentfac) {
+		this.isagentfac = isagentfac;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -136,6 +186,16 @@ public class Tpipeline implements Serializable {
 
 	public void setProjectamount(BigDecimal projectamount) {
 		this.projectamount = projectamount;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getProjectcurrency() {
+		return projectcurrency;
+	}
+
+	public void setProjectcurrency(String projectcurrency) {
+		this.projectcurrency = projectcurrency;
 	}
 
 	@Column(length = 13)
@@ -176,6 +236,16 @@ public class Tpipeline implements Serializable {
 	}
 
 	@Column(length = 2)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")	
+	public String getSelfportioncurrency() {
+		return selfportioncurrency;
+	}
+
+	public void setSelfportioncurrency(String selfportioncurrency) {
+		this.selfportioncurrency = selfportioncurrency;
+	}
+
+	@Column(length = 2)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getStatus() {
 		return this.status;
@@ -213,11 +283,36 @@ public class Tpipeline implements Serializable {
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
 	}
+	
+	
+
+	public int getYearperiod() {
+		return yearperiod;
+	}
+
+	public void setYearperiod(int yearperiod) {
+		this.yearperiod = yearperiod;
+	}
+	
+	public int getMonthperiod() {
+		return monthperiod;
+	}
+
+	public void setMonthperiod(int monthperiod) {
+		this.monthperiod = monthperiod;
+	}
+
+	public String getQperiod() {
+		return qperiod;
+	}
+
+	public void setQperiod(String qperiod) {
+		this.qperiod = qperiod;
+	}
 
 	// bi-directional many-to-one association to Mdebitur
 	@ManyToOne
 	@JoinColumn(name = "mdebiturfk")
-	@ForeignKey(name = "TPIPELINE_FK1")
 	public Mdebitur getMdebitur() {
 		return this.mdebitur;
 	}
@@ -229,7 +324,6 @@ public class Tpipeline implements Serializable {
 	// bi-directional many-to-one association to Mrm
 	@ManyToOne
 	@JoinColumn(name = "mrmfk")
-	@ForeignKey(name = "TPIPELINE_FK4")
 	public Mrm getMrm() {
 		return this.mrm;
 	}
@@ -241,7 +335,6 @@ public class Tpipeline implements Serializable {
 	// bi-directional many-to-one association to Msector
 	@ManyToOne
 	@JoinColumn(name = "msectorfk")
-	@ForeignKey(name = "TPIPELINE_FK2")
 	public Msector getMsector() {
 		return this.msector;
 	}
@@ -253,7 +346,6 @@ public class Tpipeline implements Serializable {
 	// bi-directional many-to-one association to Munit
 	@ManyToOne
 	@JoinColumn(name = "munitfk")
-	@ForeignKey(name = "TPIPELINE_FK3")
 	public Munit getMunit() {
 		return this.munit;
 	}

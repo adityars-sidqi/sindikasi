@@ -51,6 +51,17 @@ public class TmemoDAO {
         return oList;
     }	
 	
+	@SuppressWarnings("unchecked")
+	public List<Tmemo> listNativeByFilter(String filter, String orderby) throws Exception {		
+    	List<Tmemo> oList = null;
+    	if (filter == null || "".equals(filter))
+			filter = "0 = 0";
+    	session = StoreHibernateUtil.openSession();
+		oList = session.createSQLQuery("select * from Tmemo join Tpipeline on tpipelinefk = tpipelinepk join Mdebitur on mdebiturfk = mdebiturpk where " + filter + " order by " + orderby).addEntity(Tmemo.class).list();
+		session.close();
+        return oList;
+    }	
+	
 	public Tmemo findByPk(Integer pk) throws Exception {
 		session = StoreHibernateUtil.openSession();
 		Tmemo oForm = (Tmemo) session.createQuery("from Tmemo where Tmemopk = " + pk).uniqueResult();

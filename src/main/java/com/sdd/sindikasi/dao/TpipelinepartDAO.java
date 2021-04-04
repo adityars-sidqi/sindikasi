@@ -49,7 +49,19 @@ public class TpipelinepartDAO {
 		oList = session.createQuery("from Tpipelinepart where " + filter + " order by " + orderby).list();
 		session.close();
         return oList;
-    }	
+    }
+	
+	@SuppressWarnings("unchecked")
+	public List<Tpipelinepart> listNativeByFilter(String filter, String orderby) throws Exception {		
+    	List<Tpipelinepart> oList = null;
+    	if (filter == null || "".equals(filter))
+			filter = "0 = 0";
+    	session = StoreHibernateUtil.openSession();
+		oList = session.createSQLQuery("select * from Tpipelinepart join Tpipeline on tpipelinefk = tpipelinepk join Mdebitur on mdebiturfk = mdebiturpk "
+				+ "where " + filter + " order by " + orderby).addEntity(Tpipelinepart.class).list();
+		session.close();
+        return oList;
+    }
 	
 	public Tpipelinepart findByPk(Integer pk) throws Exception {
 		session = StoreHibernateUtil.openSession();

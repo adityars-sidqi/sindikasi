@@ -9,7 +9,26 @@
 					SDK Dashboard
 				</n:h4>
 			</div>
-			<div class="card-body" id="divWelcome">
+			<div class="card-body">
+
+				<panel border="normal">
+					<panelchildren>
+						<tabbox width="100%" sclass="nav_tabs">
+							<tabs id="tabs">
+								<tab label="Pipeline By Period"
+									onSelect="@command('doTab', tab='period')" />
+								<tab label="Pipeline By Unit"
+									onSelect="@command('doTab', tab='unit')" />
+								<tab label="Pipeline By Sector"
+									onSelect="@command('doTab', tab='sector')" />
+							</tabs>
+						</tabbox>
+						<separator />
+						<div id="divPage">
+						</div>
+					</panelchildren>
+				</panel>
+
 
 			</div>
 		</div>

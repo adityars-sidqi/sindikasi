@@ -78,8 +78,8 @@
 						tooltiptext="${labels.common.searchonheader}"
 						onOK="@command('doSearch')" />
 				</listheader>
-				<listheader label="${labels.common.updatedby }" />
-				<listheader label="${labels.common.lastupdated }" />
+				<listheader label="${labels.common.updatedby }" width="150px" />
+				<listheader label="${labels.common.lastupdated }" align="center" width="150px" />
 			</listhead>
 		</listbox>
 	</window>

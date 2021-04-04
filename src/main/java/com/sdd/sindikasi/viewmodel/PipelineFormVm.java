@@ -1,7 +1,9 @@
 package com.sdd.sindikasi.viewmodel;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.ValidationContext;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -22,65 +25,60 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.validator.AbstractValidator;
+import org.zkoss.io.Files;
+import org.zkoss.util.media.Media;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.WebApps;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.A;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.Column;
-import org.zkoss.zul.Columns;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
-import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Groupbox;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Row;
-import org.zkoss.zul.Rows;
-import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Window;
 
-import com.sdd.sindikasi.dao.MagenttypeDAO;
 import com.sdd.sindikasi.dao.McurrencyDAO;
 import com.sdd.sindikasi.dao.MdebiturDAO;
 import com.sdd.sindikasi.dao.MdeclinecodeDAO;
 import com.sdd.sindikasi.dao.MrmDAO;
-import com.sdd.sindikasi.dao.MrmgroupDAO;
 import com.sdd.sindikasi.dao.MsectorDAO;
 import com.sdd.sindikasi.dao.MunitDAO;
 import com.sdd.sindikasi.dao.TcounterengineDAO;
 import com.sdd.sindikasi.dao.TmemoDAO;
 import com.sdd.sindikasi.dao.TpipelineDAO;
+import com.sdd.sindikasi.dao.TpipelinedocDAO;
 import com.sdd.sindikasi.dao.TpipelinepartDAO;
-import com.sdd.sindikasi.dao.TpipelinepartagentDAO;
 import com.sdd.sindikasi.dao.TportoDAO;
 import com.sdd.sindikasi.dao.TportopartDAO;
-import com.sdd.sindikasi.domain.Magenttype;
-import com.sdd.sindikasi.domain.Mcurrency;
 import com.sdd.sindikasi.domain.Mdebitur;
 import com.sdd.sindikasi.domain.Mdeclinecode;
-import com.sdd.sindikasi.domain.Mmenu;
 import com.sdd.sindikasi.domain.Mrm;
-import com.sdd.sindikasi.domain.Mrmgroup;
 import com.sdd.sindikasi.domain.Msector;
 import com.sdd.sindikasi.domain.Munit;
 import com.sdd.sindikasi.domain.Muser;
-import com.sdd.sindikasi.domain.Musergroupmenu;
 import com.sdd.sindikasi.domain.Tmemo;
 import com.sdd.sindikasi.domain.Tpipeline;
+import com.sdd.sindikasi.domain.Tpipelinedoc;
 import com.sdd.sindikasi.domain.Tpipelinepart;
-import com.sdd.sindikasi.domain.Tpipelinepartagent;
 import com.sdd.sindikasi.domain.Tporto;
 import com.sdd.sindikasi.domain.Tportopart;
 import com.sdd.sindikasi.utils.AppData;
@@ -92,9 +90,7 @@ public class PipelineFormVm {
 	private org.zkoss.zk.ui.Session zkSession = Sessions.getCurrent();
 	private Muser oUser;
 
-	private SimpleDateFormat dateLocalFormatter = new SimpleDateFormat("dd-MM-yyyy");
-	private SimpleDateFormat datetimelocalFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	private DecimalFormat decimalLocalFormatter = new DecimalFormat("#,###");
+	private SimpleDateFormat datetimelocalFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	private Session session;
 	private Transaction transaction;
@@ -105,49 +101,32 @@ public class PipelineFormVm {
 	private int pageStartNumber;
 
 	private Tpipeline objForm;
-	private Tpipelinepart objPipelinepart;
-
-	private MagenttypeDAO magenttypeDao = new MagenttypeDAO();
-	private McurrencyDAO mcurrencyDao = new McurrencyDAO();
+	private Tpipelinepart objPart;
 
 	private TpipelineDAO oDao = new TpipelineDAO();
 	private TpipelinepartDAO tpipelinepartDao = new TpipelinepartDAO();
-	private TpipelinepartagentDAO tpipelinepartagentDao = new TpipelinepartagentDAO();
+	private TpipelinedocDAO tpipelinedocDao = new TpipelinedocDAO();
 	private TmemoDAO tmemoDao = new TmemoDAO();
 
 	private TportoDAO tportoDao = new TportoDAO();
 	private TportopartDAO tportopartDao = new TportopartDAO();
 
 	private List<Tpipelinepart> listPipelinepart;
-	private List<Tmemo> listMemo;
-
-	private List<Magenttype> listMagenttypeself = new ArrayList<Magenttype>();
-	private Map<Integer, Magenttype> mapMagenttypeself = new HashMap<Integer, Magenttype>();
-
-	private List<Magenttype> listMagenttype = new ArrayList<Magenttype>();
-	private Map<Integer, Magenttype> mapMagenttype = new HashMap<Integer, Magenttype>();
-
-	private List<Tpipelinepartagent> listPipelinepartagent = new ArrayList<Tpipelinepartagent>();
-	private Map<Tpipelinepart, List<Tpipelinepartagent>> mapPipelinepartagent = new HashMap<Tpipelinepart, List<Tpipelinepartagent>>();
-
-	private List<Mcurrency> listCurrency = new ArrayList<Mcurrency>();
-
-	private String participantname;
-	private String currencypart;
-	private BigDecimal portionamount = new BigDecimal(0);
-	private BigDecimal kipokok;
-	private BigDecimal kiidc;
-	private BigDecimal kmk;
-	private BigDecimal ncl;
-	private BigDecimal feeamount;
-	private String picname;
-	private String pichp;
-	private String picemail;
+	private List<Tpipelinepart> listDelPart;
+	private List<Tmemo> listNewMemo;
+	private List<Tmemo> listDelMemo;
+	private List<Tpipelinedoc> listDelDoc;
+	private List<Media> listMedia;
 
 	private String memo;
 
 	private BigDecimal selfportion;
 	private BigDecimal selfportionamount = new BigDecimal(0);
+	private BigDecimal feeamount = new BigDecimal(0);
+	
+	private int nopart;
+	private int nodoc;
+	private int nomemo;
 
 	@Wire
 	private Caption caption;
@@ -170,17 +149,25 @@ public class PipelineFormVm {
 	@Wire
 	private Grid gridFormParticipant;
 	@Wire
-	private Combobox cbCurrencypart;
+	private Checkbox chkAgentFac;
 	@Wire
-	private Grid gridAgent;
+	private Checkbox chkAgentCol;
 	@Wire
-	private Checkbox chkAllagent;
+	private Checkbox chkAgentEsc;
+	@Wire
+	private Checkbox chkAgentFacPart;
+	@Wire
+	private Checkbox chkAgentColPart;
+	@Wire
+	private Checkbox chkAgentEscPart;
 	@Wire
 	private Grid gridParticipant;
 	@Wire
 	private Grid gridFormMemo;
 	@Wire
 	private Grid gridMemo;
+	@Wire
+	private Grid gridDoc;
 	@Wire
 	private Combobox cbStatus;
 	@Wire
@@ -193,6 +180,8 @@ public class PipelineFormVm {
 	private Button btnSubmit;
 	@Wire
 	private Window win;
+	@Wire
+	private Div divFiles;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view, @ExecutionArgParam("obj") Tpipeline obj,
@@ -218,51 +207,284 @@ public class PipelineFormVm {
 					rowDecline.setVisible(false);
 				}
 
-				cbCurrency.setValue(objForm.getCurrency());
 				cbDebitur.setValue(objForm.getMdebitur().getDebitur());
-				cbRm.setValue(objForm.getMrm().getRmname());
 				cbUnit.setValue(objForm.getMunit().getUnitname());
 				cbSector.setValue(objForm.getMsector().getSectorname());
+				if (objForm.getIsagentfac().equals("Y"))
+					chkAgentFac.setChecked(true);
+				else
+					chkAgentFac.setChecked(false);
+				if (objForm.getIsagentcol().equals("Y"))
+					chkAgentCol.setChecked(true);
+				else
+					chkAgentCol.setChecked(false);
+				if (objForm.getIsagentesc().equals("Y"))
+					chkAgentEsc.setChecked(true);
+				else
+					chkAgentEsc.setChecked(false);
+
+				doFeeCal(objForm.getFeepercent(), objForm.getSelfportion());
 
 				for (Tpipelinepart tpipelinepart : tpipelinepartDao
 						.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(), "participantname")) {
 					if (tpipelinepart.getIsself().equals("Y"))
-						objPipelinepart = tpipelinepart;
+						objPart = tpipelinepart;
 					else
 						doAddGridPipelinepart(tpipelinepart, objForm);
-				}
-
-				doCalculate(objPipelinepart.getPortionamount());
-
-				for (Tpipelinepartagent tpipelinepartagent : tpipelinepartagentDao.listByFilter(
-						"tpipelinepart.tpipelinepartpk = " + objPipelinepart.getTpipelinepartpk(),
-						"tpipelinepartagent")) {
-					mapMagenttypeself.put(tpipelinepartagent.getMagenttype().getMagenttypepk(),
-							tpipelinepartagent.getMagenttype());
 				}
 
 				for (Tmemo tmemo : tmemoDao.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(),
 						"createdtime")) {
 					doAddGridMemo(tmemo, objForm);
 				}
-
-				doLoadAgentself();
+				
+				for (Tpipelinedoc tdoc : tpipelinedocDao.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(),
+						"createdtime")) {
+					doAddGridDoc(tdoc);
+				}
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
+	}
+
+	@Command
+	@NotifyChange("feeamount")
+	public void doFeeCal(@BindingParam("percent") BigDecimal percent,
+			@BindingParam("selfamount") BigDecimal selfamount) {
+		try {
+			if (percent != null && selfamount != null)
+				feeamount = percent.divide(new BigDecimal(100)).multiply(selfamount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Command
+	public void doUpload(@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx) {
+		try {
+			UploadEvent event = (UploadEvent) ctx.getTriggerEvent();
+			for (final Media media: event.getMedias()) {
+				listMedia.add(media);
+				final Hlayout hlayout = new Hlayout();
+				hlayout.appendChild(new Label(media.getName()));
+				hlayout.appendChild(new Separator("vertical"));
+				A aDel = new A("Delete");
+				aDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					public void onEvent(Event event) throws Exception {
+						divFiles.removeChild(hlayout);
+						listMedia.remove(media);
+					}
+
+					
+				});
+				hlayout.appendChild(aDel);				
+				divFiles.appendChild(hlayout);				
+			}		    						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	    
+	}
+
+	@Command
+	@NotifyChange("objPart")
+	public void doSavePart() {
+		try {
+			if (chkAgentFacPart.isChecked())
+				objPart.setIsagentfac("Y");
+			else
+				objPart.setIsagentfac("N");
+			if (chkAgentColPart.isChecked())
+				objPart.setIsagentcol("Y");
+			else
+				objPart.setIsagentcol("N");
+			if (chkAgentEscPart.isChecked())
+				objPart.setIsagentesc("Y");
+			else
+				objPart.setIsagentesc("N");
+			listPipelinepart.add(objPart);
+			doAddGridPipelinepart(objPart, null);
+			doResetPart();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void doAddGridPipelinepart(final Tpipelinepart obj, final Tpipeline tpipeline) {
+		final Row row = new Row();
+		row.appendChild(new Label(String.valueOf(++nopart)));
+		row.appendChild(new Label(obj.getParticipantname()));
+		row.appendChild(new Label(AppData.getAgentType(obj.getIsagentfac(), obj.getIsagentcol(), obj.getIsagentesc())));		
+		/*row.appendChild(new Label(obj.getCurrency() + " " + decimalLocalFormatter.format(obj.getPortionamount())));
+		row.appendChild(new Label(obj.getPicname()));
+		row.appendChild(new Label(obj.getPichp()));
+		row.appendChild(new Label(obj.getPicemail()));*/
+		Button btnDel = new Button("Delete");
+		btnDel.setZclass("btn btn-sm btn-danger");
+		btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+			public void onEvent(Event event) throws Exception {
+				Messagebox.show(Labels.getLabel("common.delete.confirm"), "Confirm Dialog",
+						Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new EventListener<Event>() {
+
+							public void onEvent(Event event) throws Exception {
+								if (event.getName().equals("onOK")) {
+									listPipelinepart.remove(obj);
+									if (tpipeline != null)
+										listDelPart.add(obj);
+									gridParticipant.getRows().removeChild(row);
+								}
+							}
+						});
+
+			}
+
+		});
+		row.appendChild(btnDel);
+
+		gridParticipant.getRows().appendChild(row);
+	}
+
+	@Command
+	@NotifyChange("memo")
+	public void doSaveMemo() {
+		if (memo != null && memo.trim().length() > 0) {
+			try {
+
+				final Tmemo obj = new Tmemo();
+				obj.setMemo(memo);
+				obj.setCreatedtime(new Date());
+				obj.setCreatedby(oUser.getUserid());
+				listNewMemo.add(obj);
+
+				doAddGridMemo(obj, null);
+
+				memo = "";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			Messagebox.show("You must entry the memo", WebApps.getCurrent().getAppName(), Messagebox.OK,
+					Messagebox.EXCLAMATION);
+		}
+	}
+	
+	private void doAddGridDoc(final Tpipelinedoc obj) {
+		final Row row = new Row();
+		row.appendChild(new Label(String.valueOf(++nodoc)));
+		A a = new A(obj.getFilename());
+		a.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+			public void onEvent(Event event) throws Exception {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("docpath", AppUtils.FILES_ROOT_PATH + AppUtils.DOC_PATH + obj.getFilename());
+				
+				Window win = (Window) Executions.createComponents("/view/docviewer.zul", null, map);
+				win.setClosable(true);				
+				win.doModal();
+			}
+		});
+		row.appendChild(a);		
+		row.appendChild(new Label(datetimelocalFormatter.format(obj.getCreatedtime())));
+		row.appendChild(new Label(obj.getCreatedby()));
+
+		Button btnDel = new Button("Delete");
+		btnDel.setZclass("btn btn-sm btn-danger");
+		btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+			public void onEvent(Event event) throws Exception {
+				Messagebox.show(Labels.getLabel("common.delete.confirm"), "Confirm Dialog",
+						Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new EventListener<Event>() {
+
+							public void onEvent(Event event) throws Exception {
+								if (event.getName().equals("onOK")) {
+									listDelDoc.add(obj);
+									gridDoc.getRows().removeChild(row);
+								}
+							}
+						});
+
+			}
+
+		});
+		row.appendChild(btnDel);
+
+		gridDoc.getRows().appendChild(row);
+	}
+
+	private void doAddGridMemo(final Tmemo obj, final Tpipeline tpipeline) {
+		final Row row = new Row();
+		row.appendChild(new Label(String.valueOf(++nomemo)));	
+		row.appendChild(new Label(obj.getMemo()));		
+		row.appendChild(new Label(datetimelocalFormatter.format(obj.getCreatedtime())));
+		row.appendChild(new Label(obj.getCreatedby()));
+
+		Button btnDel = new Button("Delete");
+		btnDel.setZclass("btn btn-sm btn-danger");
+		btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+			public void onEvent(Event event) throws Exception {
+				Messagebox.show(Labels.getLabel("common.delete.confirm"), "Confirm Dialog",
+						Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new EventListener<Event>() {
+
+							public void onEvent(Event event) throws Exception {
+								if (event.getName().equals("onOK")) {
+									listNewMemo.remove(obj);
+									if (tpipeline != null)
+										listDelMemo.add(obj);
+									gridMemo.getRows().removeChild(row);
+								}
+							}
+						});
+
+			}
+
+		});
+		row.appendChild(btnDel);
+
+		gridMemo.getRows().appendChild(row);
 	}
 
 	@Command
 	@NotifyChange("*")
 	public void doSave() {
 		try {
-
 			isSaved = true;
 
 			session = StoreHibernateUtil.openSession();
 			transaction = session.beginTransaction();
+
+			objForm.setFeecurrency(objForm.getSelfportioncurrency());
+			objForm.setFeeamount(feeamount);
+			if (chkAgentFac.isChecked())
+				objForm.setIsagentfac("Y");
+			else
+				objForm.setIsagentfac("N");
+			if (chkAgentCol.isChecked())
+				objForm.setIsagentcol("Y");
+			else
+				objForm.setIsagentcol("N");
+			if (chkAgentEsc.isChecked())
+				objForm.setIsagentesc("Y");
+			else
+				objForm.setIsagentesc("N");
+
+			objForm.setYearperiod(Integer.parseInt(new SimpleDateFormat("yyyy").format(objForm.getTargetpk())));
+			objForm.setMonthperiod(Integer.parseInt(new SimpleDateFormat("MM").format(objForm.getTargetpk())));
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			if (objForm.getTargetpk().compareTo(dateFormatter.parse(objForm.getYearperiod() + "-09-30")) > 0) {
+				objForm.setQperiod("Q4");
+			} else if (objForm.getTargetpk().compareTo(dateFormatter.parse(objForm.getYearperiod() + "-06-30")) > 0) {
+				objForm.setQperiod("Q3");
+			} else if (objForm.getTargetpk().compareTo(dateFormatter.parse(objForm.getYearperiod() + "-03-31")) > 0) {
+				objForm.setQperiod("Q2");
+			} else {
+				objForm.setQperiod("Q1");
+			}
 
 			if (isInsert) {
 				String regid = new TcounterengineDAO().getLastCounter("REGID");
@@ -289,7 +511,6 @@ public class PipelineFormVm {
 					tporto.setRmid(objForm.getMrm().getRmid());
 					tporto.setRmname(objForm.getMrm().getRmname());
 					tporto.setRmcredit(objForm.getRmcredit());
-					tporto.setCurrency(objForm.getCurrency());
 					tporto.setProjectamount(objForm.getProjectamount());
 					tporto.setCreditfacility(objForm.getCreditfacility());
 					tporto.setSelfportion(selfportion);
@@ -318,61 +539,55 @@ public class PipelineFormVm {
 				}
 			}
 
-			objForm.setSelfportion(selfportionamount);
-			objForm.setFeepercent(
-					objForm.getFeeamount().divide(objForm.getProjectamount()).multiply(new BigDecimal(100)));
 			objForm.setLastupdated(new Date());
 			objForm.setUpdatedby(oUser.getUserid());
 
 			oDao.save(session, objForm);
-
-			objPipelinepart.setTpipeline(objForm);
-			objPipelinepart.setIsself("Y");
-			objPipelinepart.setCurrency(objForm.getCurrency());
-			objPipelinepart.setFeeamount(objForm.getFeeamount());
-			objPipelinepart.setParticipantname("BNI");
-			objPipelinepart.setPortionamount(objForm.getSelfportion());
-			BigDecimal portionpercent = objPipelinepart.getPortionamount().divide(objForm.getProjectamount())
-					.multiply(new BigDecimal(100));
-			objPipelinepart.setPortionpercent(portionpercent);
-			objPipelinepart.setLastupdated(new Date());
-			objPipelinepart.setUpdatedby(oUser.getUserid());
-			tpipelinepartDao.save(session, objPipelinepart);
-
-			for (Magenttype obj : listMagenttypeself) {
-				Tpipelinepartagent objPipelinepartagentself = new Tpipelinepartagent();
-				objPipelinepartagentself.setMagenttype(obj);
-				objPipelinepartagentself.setTpipelinepart(objPipelinepart);
-				objPipelinepartagentself.setLastupdated(new Date());
-				objPipelinepartagentself.setUpdatedby(oUser.getUserid());
-
-				tpipelinepartagentDao.save(session, objPipelinepartagentself);
+			
+			for (Tpipelinepart obj : listDelPart) {
+				tpipelinepartDao.delete(session, obj);
 			}
 
 			for (Tpipelinepart obj : listPipelinepart) {
 				obj.setTpipeline(objForm);
 				obj.setIsself("N");
-				portionpercent = obj.getPortionamount().divide(objForm.getProjectamount())
-						.multiply(new BigDecimal(100));
-				obj.setPortionpercent(portionpercent);
 				obj.setLastupdated(new Date());
 				obj.setUpdatedby(oUser.getUserid());
 
 				tpipelinepartDao.save(session, obj);
-
+			}
+			
+			for (Tmemo obj : listDelMemo) {
+				tmemoDao.delete(session, obj);
 			}
 
-			for (Tpipelinepartagent obj : listPipelinepartagent) {
-				obj.setLastupdated(new Date());
-				obj.setUpdatedby(oUser.getUserid());
-
-				tpipelinepartagentDao.save(session, obj);
-			}
-
-			for (Tmemo obj : listMemo) {
+			for (Tmemo obj : listNewMemo) {
 				obj.setTpipeline(objForm);
-
+				
 				tmemoDao.save(session, obj);
+			}
+			
+			for (Tpipelinedoc obj : listDelDoc) {
+				tpipelinedocDao.delete(session, obj);
+			}
+			
+			String path = Executions.getCurrent().getDesktop().getWebApp()
+					.getRealPath(AppUtils.FILES_ROOT_PATH + AppUtils.DOC_PATH);
+			for (Media media: listMedia) {				
+				if (media.isBinary()) {
+					Files.copy(new File(path + "/" + media.getName()), media.getStreamData());
+				} else {
+					BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/" + media.getName()));
+					Files.copy(writer, media.getReaderData());
+					writer.close();
+				}
+				
+				Tpipelinedoc doc = new Tpipelinedoc();
+				doc.setTpipeline(objForm);
+				doc.setFilename(media.getName());
+				doc.setCreatedby(oUser.getUserid());
+				doc.setCreatedtime(new Date());
+				tpipelinedocDao.save(session, doc);
 			}
 
 			transaction.commit();
@@ -401,244 +616,6 @@ public class PipelineFormVm {
 	}
 
 	@Command
-	@NotifyChange("gridAgent")
-	public void doLoadAgentself() {
-
-		try {
-			chkAllagentself.setChecked(false);
-			gridAgentself.getRows().getChildren().clear();
-			for (Magenttype obj : magenttypeDao.listByFilter("0=0", "agentcode")) {
-				doAddGridAgentself(obj);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private void doAddGridAgentself(final Magenttype obj) {
-		final Row row = new Row();
-
-		final Checkbox chk = new Checkbox();
-		chk.setAttribute("obj", obj);
-		chk.addEventListener(Events.ON_CHECK, new EventListener<Event>() {
-
-			public void onEvent(Event event) throws Exception {
-				if (chk.isChecked()) {
-					listMagenttypeself.add((Magenttype) chk.getAttribute("obj"));
-				} else {
-					listMagenttypeself.remove(chk.getAttribute("obj"));
-				}
-			}
-		});
-		if (mapMagenttypeself.get(obj.getMagenttypepk()) != null) {
-			chk.setChecked(true);
-			listMagenttypeself.add(obj);
-		}
-		row.appendChild(chk);
-
-		row.appendChild(new Label(obj.getAgentcode()));
-
-		gridAgentself.getRows().appendChild(row);
-	}
-
-	@Command
-	@NotifyChange("gridAgent")
-	public void doLoadAgent() {
-
-		try {
-			chkAllagent.setChecked(false);
-			gridAgent.getRows().getChildren().clear();
-			for (Magenttype obj : magenttypeDao.listByFilter("0=0", "agentcode")) {
-				doAddGridAgent(obj);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private void doAddGridAgent(final Magenttype obj) {
-		final Row row = new Row();
-
-		final Checkbox chk = new Checkbox();
-		chk.setAttribute("obj", obj);
-		chk.addEventListener(Events.ON_CHECK, new EventListener<Event>() {
-
-			public void onEvent(Event event) throws Exception {
-				if (chk.isChecked()) {
-					listMagenttype.add((Magenttype) chk.getAttribute("obj"));
-				} else {
-					listMagenttype.remove(chk.getAttribute("obj"));
-				}
-			}
-		});
-		if (mapMagenttype.get(obj.getMagenttypepk()) != null) {
-			chk.setChecked(true);
-			listMagenttype.add(obj);
-		}
-		row.appendChild(chk);
-
-		row.appendChild(new Label(obj.getAgentcode()));
-
-		gridAgent.getRows().appendChild(row);
-	}
-
-	@Command
-	@NotifyChange("gridAgent")
-	public void doCheckedallAgent(@BindingParam("checked") boolean checked) {
-		try {
-			List<Row> components = gridAgent.getRows().getChildren();
-			for (Row comp : components) {
-				Checkbox chk = (Checkbox) comp.getChildren().get(0);
-				if (checked) {
-					chk.setChecked(true);
-					listMagenttype.remove(chk.getAttribute("obj"));
-					listMagenttype.add((Magenttype) chk.getAttribute("obj"));
-				} else {
-					chk.setChecked(false);
-					listMagenttype.remove(chk.getAttribute("obj"));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Command
-	@NotifyChange({ "participantname", "currencypart", "kipokok", "kiidc", "kmk", "ncl", "feeamount", "picemail",
-			"pichp", "picname" })
-	public void doSavePipelinepart() {
-		if (participantname.trim().length() > 0 && currencypart.trim().length() > 0
-				&& kipokok.compareTo(BigDecimal.ZERO) > 0 && kiidc.compareTo(BigDecimal.ZERO) > 0
-				&& kmk.compareTo(BigDecimal.ZERO) > 0 && ncl.compareTo(BigDecimal.ZERO) > 0
-				&& feeamount.compareTo(BigDecimal.ZERO) > 0 && picemail.trim().length() > 0 && pichp.trim().length() > 0
-				&& picname.trim().length() > 0)
-			try {
-
-				final Tpipelinepart obj = new Tpipelinepart();
-				obj.setParticipantname(participantname);
-				obj.setCurrency(currencypart);
-
-				portionamount = kipokok.add(kiidc).add(kmk).add(ncl);
-				obj.setPortionamount(portionamount);
-				obj.setKipokok(kipokok);
-				obj.setKiidc(kiidc);
-				obj.setKmk(kmk);
-				obj.setNcl(ncl);
-				obj.setFeeamount(feeamount);
-				obj.setPicname(picname);
-				obj.setPichp(pichp);
-				obj.setPicemail(picemail);
-
-				listPipelinepart.add(obj);
-
-				for (Magenttype objAgenttype : listMagenttype) {
-					final Tpipelinepartagent objTpipelinepartagent = new Tpipelinepartagent();
-					objTpipelinepartagent.setTpipelinepart(obj);
-					objTpipelinepartagent.setMagenttype(objAgenttype);
-
-					listPipelinepartagent.add(objTpipelinepartagent);
-				}
-
-//				mapPipelinepartagent.put(obj, listPipelinepartagent);
-
-				doAddGridPipelinepart(obj, null);
-
-				participantname = "";
-				currencypart = "";
-				portionamount = null;
-				kipokok = null;
-				kiidc = null;
-				kmk = null;
-				ncl = null;
-				feeamount = null;
-				picemail = "";
-				pichp = "";
-				picname = "";
-				cbCurrencypart.setValue("");
-//				listPipelinepartagent = new ArrayList<Tpipelinepartagent>();
-				listMagenttype = new ArrayList<Magenttype>();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-
-	private void doAddGridPipelinepart(final Tpipelinepart obj, Tpipeline tpipeline) {
-		final Row row = new Row();
-		row.appendChild(new Label(obj.getParticipantname()));
-//		row.appendChild(new Label(decimalLocalFormatter.format(obj.getPortionpercent())));
-		row.appendChild(new Label(decimalLocalFormatter.format(obj.getPortionamount())));
-
-		if (tpipeline != null)
-			row.appendChild(new Label(""));
-		else {
-			Button btnDel = new Button("Delete");
-			btnDel.setZclass("btn btn-sm btn-danger");
-			btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
-
-				public void onEvent(Event event) throws Exception {
-					listPipelinepart.remove(obj);
-					gridParticipant.getRows().removeChild(row);
-				}
-
-			});
-			row.appendChild(btnDel);
-		}
-
-		gridParticipant.getRows().appendChild(row);
-	}
-
-	@Command
-	@NotifyChange("memo")
-	public void doSaveMemo() {
-		if (memo != null && memo.trim().length() > 0)
-			try {
-
-				final Tmemo obj = new Tmemo();
-				obj.setMemo(memo);
-				obj.setCreatedtime(new Date());
-				obj.setCreatedby(oUser.getUserid());
-				listMemo.add(obj);
-
-				doAddGridMemo(obj, null);
-
-				memo = "";
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-
-	private void doAddGridMemo(final Tmemo obj, Tpipeline tpipeline) {
-		final Row row = new Row();
-		row.appendChild(new Label(obj.getMemo()));
-		row.appendChild(new Label(obj.getCreatedby()));
-		row.appendChild(new Label(datetimelocalFormatter.format(obj.getCreatedtime())));
-
-		if (tpipeline != null)
-			row.appendChild(new Label(""));
-		else {
-			Button btnDel = new Button("Delete");
-			btnDel.setZclass("btn btn-sm btn-danger");
-			btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
-
-				public void onEvent(Event event) throws Exception {
-					listMemo.remove(obj);
-					gridMemo.getRows().removeChild(row);
-				}
-
-			});
-			row.appendChild(btnDel);
-		}
-
-		gridMemo.getRows().appendChild(row);
-	}
-
-	@Command
 	public void doLoadDeclinecode(@BindingParam("status") String status) {
 		if (status.equals(AppUtils.STATUS_APPROVE)) {
 			rowApprove.setVisible(true);
@@ -647,18 +624,6 @@ public class PipelineFormVm {
 			rowApprove.setVisible(false);
 			rowDecline.setVisible(true);
 		}
-	}
-
-	@Command
-	@NotifyChange("selfportionamount")
-	public void doCalculate(@BindingParam("amount") BigDecimal amount) {
-		selfportionamount = selfportionamount.add(amount);
-	}
-
-	@Command
-	@NotifyChange("portionamount")
-	public void doCalculatePart(@BindingParam("amount") BigDecimal amount) {
-		portionamount = portionamount.add(amount);
 	}
 
 	@Command()
@@ -674,35 +639,30 @@ public class PipelineFormVm {
 	@NotifyChange("*")
 	public void doReset() {
 		try {
-
+			nopart = 0;
+			nodoc = 0;
+			nomemo = 0;
+			
 			objForm = new Tpipeline();
-			objPipelinepart = new Tpipelinepart();
-
+			objForm.setProjectcurrency("IDR");
+			objForm.setCreditfacilitycurr("IDR");
+			objForm.setSelfportioncurrency("IDR");
+			
 			isInsert = true;
 			isSaved = false;
 			listPipelinepart = new ArrayList<Tpipelinepart>();
-			listMemo = new ArrayList<Tmemo>();
+			listDelPart = new ArrayList<Tpipelinepart>();
+			listNewMemo = new ArrayList<Tmemo>();
+			listDelMemo = new ArrayList<Tmemo>();
+			listDelDoc = new ArrayList<Tpipelinedoc>();
+			listMedia = new ArrayList<Media>();
 
 			cbDebitur.setValue(null);
-			cbRm.setValue(null);
 			cbSector.setValue(null);
 			cbStatus.setValue(null);
 			cbUnit.setValue(null);
 
 			rowReg.setVisible(false);
-
-			listCurrency = mcurrencyDao.listByFilter("0=0", "currencycode");
-
-			cbCurrency.getChildren().clear();
-			cbCurrencypart.getChildren().clear();
-			for (Mcurrency obj : listCurrency) {
-				Comboitem item = new Comboitem(obj.getCurrencycode());
-				Comboitem itempart = new Comboitem(obj.getCurrencycode());
-				item.setValue(obj.getCurrencycode());
-				itempart.setValue(obj.getCurrencycode());
-				cbCurrency.appendChild(item);
-				cbCurrencypart.appendChild(itempart);
-			}
 
 			gbChangestatus.setVisible(false);
 			cbStatus.getChildren().clear();
@@ -712,11 +672,16 @@ public class PipelineFormVm {
 				cbStatus.appendChild(item);
 			}
 
-			doLoadAgentself();
-			doLoadAgent();
+			doResetPart();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@NotifyChange("objPart")
+	public void doResetPart() {
+		objPart = new Tpipelinepart();
 	}
 
 	public Validator getValidator() {
@@ -727,13 +692,11 @@ public class PipelineFormVm {
 				Mdebitur mdebitur = (Mdebitur) ctx.getProperties("mdebitur")[0].getValue();
 				Msector msector = (Msector) ctx.getProperties("msector")[0].getValue();
 				String project = (String) ctx.getProperties("project")[0].getValue();
-				Mrm mrm = (Mrm) ctx.getProperties("mrm")[0].getValue();
 				Munit munit = (Munit) ctx.getProperties("munit")[0].getValue();
-				String currency = (String) ctx.getProperties("currency")[0].getValue();
 				BigDecimal projectamount = (BigDecimal) ctx.getProperties("projectamount")[0].getValue();
-				BigDecimal feeamount = (BigDecimal) ctx.getProperties("feeamount")[0].getValue();
+				BigDecimal creditfacility = (BigDecimal) ctx.getProperties("creditfacility")[0].getValue();
+				BigDecimal selfportion = (BigDecimal) ctx.getProperties("selfportion")[0].getValue();
 				Date targetpk = (Date) ctx.getProperties("targetpk")[0].getValue();
-				String notes = (String) ctx.getProperties("notes")[0].getValue();
 
 				if (mdebitur == null)
 					this.addInvalidMessage(ctx, "mdebitur", Labels.getLabel("common.validator.empty"));
@@ -741,21 +704,29 @@ public class PipelineFormVm {
 					this.addInvalidMessage(ctx, "msector", Labels.getLabel("common.validator.empty"));
 				if (project == null || "".equals(project.trim()))
 					this.addInvalidMessage(ctx, "project", Labels.getLabel("common.validator.empty"));
-				if (mrm == null)
-					this.addInvalidMessage(ctx, "mrm", Labels.getLabel("common.validator.empty"));
-
 				if (munit == null)
 					this.addInvalidMessage(ctx, "munit", Labels.getLabel("common.validator.empty"));
-				if (currency == null || "".equals(currency.trim()))
-					this.addInvalidMessage(ctx, "currency", Labels.getLabel("common.validator.empty"));
 				if (projectamount == null || projectamount.compareTo(BigDecimal.ZERO) <= 0)
 					this.addInvalidMessage(ctx, "projectamount", Labels.getLabel("common.validator.empty"));
-				if (feeamount == null || feeamount.compareTo(BigDecimal.ZERO) <= 0)
-					this.addInvalidMessage(ctx, "feeamount", Labels.getLabel("common.validator.empty"));
+				if (creditfacility == null || creditfacility.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "creditfacility", Labels.getLabel("common.validator.empty"));
+				if (selfportion == null || selfportion.compareTo(BigDecimal.ZERO) <= 0)
+					this.addInvalidMessage(ctx, "selfportion", Labels.getLabel("common.validator.empty"));
 				if (targetpk == null)
 					this.addInvalidMessage(ctx, "targetpk", Labels.getLabel("common.validator.empty"));
-				if (notes == null || "".equals(notes.trim()))
-					this.addInvalidMessage(ctx, "notes", Labels.getLabel("common.validator.empty"));
+				
+			}
+		};
+	}
+
+	public Validator getValidatorPart() {
+		return new AbstractValidator() {
+
+			public void validate(ValidationContext ctx) {
+				String participantname = (String) ctx.getProperties("participantname")[0].getValue();
+				
+				if (participantname == null || "".equals(participantname.trim()))
+					this.addInvalidMessage(ctx, "participantname", Labels.getLabel("common.validator.empty"));
 			}
 		};
 	}
@@ -800,6 +771,17 @@ public class PipelineFormVm {
 		return lm;
 	}
 
+	@SuppressWarnings("unchecked")
+	public ListModelList<String> getMcurreny() {
+		ListModelList<String> lm = null;
+		try {
+			lm = new ListModelList<String>(new McurrencyDAO().listStr("currencycode"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lm;
+	}
+
 	public ListModelList<Mdeclinecode> getMdeclinecode() {
 		ListModelList<Mdeclinecode> lm = null;
 		try {
@@ -818,100 +800,12 @@ public class PipelineFormVm {
 		this.objForm = objForm;
 	}
 
-	public Tpipelinepart getObjPipelinepart() {
-		return objPipelinepart;
+	public Tpipelinepart getObjPart() {
+		return objPart;
 	}
 
-	public void setObjPipelinepart(Tpipelinepart objPipelinepart) {
-		this.objPipelinepart = objPipelinepart;
-	}
-
-	public String getParticipantname() {
-		return participantname;
-	}
-
-	public void setParticipantname(String participantname) {
-		this.participantname = participantname;
-	}
-
-	public String getCurrencypart() {
-		return currencypart;
-	}
-
-	public void setCurrencypart(String currencypart) {
-		this.currencypart = currencypart;
-	}
-
-	public BigDecimal getPortionamount() {
-		return portionamount;
-	}
-
-	public void setPortionamount(BigDecimal portionamount) {
-		this.portionamount = portionamount;
-	}
-
-	public BigDecimal getKipokok() {
-		return kipokok;
-	}
-
-	public void setKipokok(BigDecimal kipokok) {
-		this.kipokok = kipokok;
-	}
-
-	public BigDecimal getKiidc() {
-		return kiidc;
-	}
-
-	public void setKiidc(BigDecimal kiidc) {
-		this.kiidc = kiidc;
-	}
-
-	public BigDecimal getKmk() {
-		return kmk;
-	}
-
-	public void setKmk(BigDecimal kmk) {
-		this.kmk = kmk;
-	}
-
-	public BigDecimal getNcl() {
-		return ncl;
-	}
-
-	public void setNcl(BigDecimal ncl) {
-		this.ncl = ncl;
-	}
-
-	public BigDecimal getFeeamount() {
-		return feeamount;
-	}
-
-	public void setFeeamount(BigDecimal feeamount) {
-		this.feeamount = feeamount;
-	}
-
-	public String getPicname() {
-		return picname;
-	}
-
-	public void setPicname(String picname) {
-		this.picname = picname;
-	}
-
-	public String getPichp() {
-		return pichp;
-	}
-
-	public void setPichp(String pichp) {
-		this.pichp = pichp;
-	}
-
-	public String getPicemail() {
-		return picemail;
-	}
-
-	public void setPicemail(String picemail) {
-		this.picemail = picemail;
+	public void setObjPart(Tpipelinepart objPart) {
+		this.objPart = objPart;
 	}
 
 	public String getMemo() {
@@ -936,6 +830,14 @@ public class PipelineFormVm {
 
 	public void setSelfportion(BigDecimal selfportion) {
 		this.selfportion = selfportion;
+	}
+
+	public BigDecimal getFeeamount() {
+		return feeamount;
+	}
+
+	public void setFeeamount(BigDecimal feeamount) {
+		this.feeamount = feeamount;
 	}
 
 }

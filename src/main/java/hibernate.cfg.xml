@@ -7,14 +7,14 @@
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sindikasidb</property>
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="connection.password">postgres</property>
+		<property name="connection.password">admin</property>
 
 		<property name="hibernate.jdbc.batch_size">20</property>
 		<property name="hibernate.cache.use_second_level_cache">false</property>
 
 		<!-- Use the C3P0 connection pool. -->
 		<property name="c3p0.min_size">50</property>
-		<property name="c3p0.max_size">600</property>
+		<property name="c3p0.max_size">300</property>
 		<property name="c3p0.timeout">1800</property>
 
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -29,7 +29,7 @@
 
 		<property name="show_sql">true</property>
 		<property name="use_sql_comments">false</property>
-		<property name="format_sql">true</property>
+		<property name="format_sql">false</property>
 		<property name="hbm2ddl.auto">update</property>
 
 		<mapping class="com.sdd.sindikasi.domain.AuditLog" />
@@ -51,6 +51,7 @@
 
 		<mapping class="com.sdd.sindikasi.domain.Tmemo" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipeline" />
+		<mapping class="com.sdd.sindikasi.domain.Tpipelinedoc" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipelinepart" />
 		<mapping class="com.sdd.sindikasi.domain.Tpipelinepartagent" />
 		<mapping class="com.sdd.sindikasi.domain.Tporto" />
@@ -67,6 +68,10 @@
 		<mapping class="com.sdd.sindikasi.domain.Tscheduler" />
 
 		<mapping class="com.sdd.sindikasi.domain.Vsummary" />
+		
+		<mapping class="com.sdd.sindikasi.domain.Vpipelineperiod" />
+		<mapping class="com.sdd.sindikasi.domain.Vpipelinesector" />	
+		<mapping class="com.sdd.sindikasi.domain.Vpipelineunit" />		
 
 	</session-factory>
 </hibernate-configuration>

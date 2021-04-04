@@ -2,7 +2,6 @@ package com.sdd.sindikasi.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +24,7 @@ import org.hibernate.annotations.Type;
 public class Munit implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer munitpk;
+	private String isbumn;
 	private Date lastupdated;
 	private String unitcode;
 	private String unitcostcenter;
@@ -45,6 +44,16 @@ public class Munit implements Serializable {
 
 	public void setMunitpk(Integer munitpk) {
 		this.munitpk = munitpk;
+	}
+
+	
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getIsbumn() {
+		return isbumn;
+	}
+
+	public void setIsbumn(String isbumn) {
+		this.isbumn = isbumn;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

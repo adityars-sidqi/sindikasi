@@ -27,6 +27,8 @@
 				<!-- <n:img src="resources/images/sindikasi_brand.png"
 					class="img-fluid mb-4" width="220px" height="55px">
 				</n:img> -->
+				<n:h3>Sindikasi Management System</n:h3>
+				<n:br />
 				<n:form id="fmlogin"
 					class="text-center border border-light z-depth-1-half pl-4 pr-4">
 					<label sclass="text-danger"
@@ -43,6 +45,9 @@
 						class="btn btn-info btn-block my-4 rounded-pill" label="LOGIN" />
 
 				</n:form>
+				<n:br/>
+				<n:h5>Divisi Sindikasi</n:h5>
+				<n:h5>PT Bank Negara Indonesia, TBK.</n:h5>
 				<div class="mt-5">
 					<n:span>&#169; Copyright</n:span>
 					<n:img src="resources/images/bni.png" class="img-fluid mr-3"

@@ -1,5 +1,6 @@
 package com.sdd.sindikasi.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,27 @@ public class AppData {
 		else if (code.equals(AppUtils.PAYTYPE_FEE))
 			label = "FEE";
 		return label;
+	}
+	
+	public static String getAgentType(String isagentfac, String isagentcol, String isagentesc) {
+		String agents = "";
+		if (isagentfac.equals("Y"))
+			agents += "Facility";
+		if (isagentcol.equals("Y")) {
+			if (agents.length() > 0)
+				agents += ", ";
+			agents += "Collateral";
+		}
+		if (isagentesc.equals("Y")) {
+			if (agents.length() > 0)
+				agents += ", ";
+			agents += "Escrow";
+		}
+		return agents;
+	}
+	
+	public static BigDecimal getAmountAfterDivide(BigDecimal amount) {
+		return amount.divide(AppUtils.AMOUNT_DIVIDER);
 	}
 	
 	public static String getMonthPaySchedule(String months) {

@@ -105,6 +105,8 @@ public class MunitVm {
 					item.appendChild(cell);
 					cell = new Listcell(data.getUnitcostcenter());
 					item.appendChild(cell);
+					cell = new Listcell(data.getIsbumn().equals("Y") ? "BUMN" : "Non BUMN");
+					item.appendChild(cell);
 					cell = new Listcell(data.getUpdatedby());
 					item.appendChild(cell);
 					cell = new Listcell(datetimeLocalFormatter.format(data.getLastupdated()));
@@ -247,6 +249,7 @@ public class MunitVm {
 
 		isInsert = true;
 		objForm = new Munit();
+		objForm.setIsbumn("N");
 
 		btnCancel.setDisabled(true);
 		btnDelete.setDisabled(true);
