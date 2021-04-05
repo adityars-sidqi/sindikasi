@@ -27,7 +27,7 @@
 				<!-- <n:img src="resources/images/sindikasi_brand.png"
 					class="img-fluid mb-4" width="220px" height="55px">
 				</n:img> -->
-				<n:h3>Sindikasi Management System</n:h3>
+				<n:h3>SSK Management System</n:h3>
 				<n:br />
 				<n:form id="fmlogin"
 					class="text-center border border-light z-depth-1-half pl-4 pr-4">

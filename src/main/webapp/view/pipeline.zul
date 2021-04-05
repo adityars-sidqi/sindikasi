@@ -218,6 +218,40 @@
 											value="@load(vmsgs['targetpk'])" />
 									</vlayout>
 								</row>
+								<row>
+                                    <label
+                                        value="${labels.rmgroup.rmgroupname}" />
+                                    <vlayout>
+                                        <combobox id="cbRmgroup"
+                                            readonly="true" model="@load(vm.mrmgroupmodel)" width="100%"
+                                            selectedItem="@bind(vm.mrmgroup)">
+                                            <template name="model"
+                                                var="mrmgroup">
+                                                <comboitem
+                                                    label="@load(mrmgroup.rmgroupname)" />
+                                            </template>
+                                        </combobox>
+                                        <label style="color:red"
+                                            value="@load(vmsgs['mrm'])" />
+                                    </vlayout>
+                                </row>
+                                <row>
+                                    <label
+                                        value="${labels.rm.rmname}" />
+                                    <vlayout>
+                                        <combobox id="cbRm"
+                                            readonly="true" model="@load(vm.mrmmodel)" width="100%"
+                                            selectedItem="@bind(e.mrm)">
+                                            <template name="model"
+                                                var="mrm">
+                                                <comboitem
+                                                    label="@load(mrm.rmname)" />
+                                            </template>
+                                        </combobox>
+                                        <label style="color:red"
+                                            value="@load(vmsgs['mrm'])" />
+                                    </vlayout>
+                                </row>
 							</rows>
 						</grid>
 					</groupbox>
