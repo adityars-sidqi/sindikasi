@@ -45,6 +45,7 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Groupbox;
@@ -60,6 +61,7 @@ import com.sdd.sindikasi.dao.McurrencyDAO;
 import com.sdd.sindikasi.dao.MdebiturDAO;
 import com.sdd.sindikasi.dao.MdeclinecodeDAO;
 import com.sdd.sindikasi.dao.MrmDAO;
+import com.sdd.sindikasi.dao.MrmgroupDAO;
 import com.sdd.sindikasi.dao.MsectorDAO;
 import com.sdd.sindikasi.dao.MunitDAO;
 import com.sdd.sindikasi.dao.TcounterengineDAO;
@@ -72,6 +74,7 @@ import com.sdd.sindikasi.dao.TportopartDAO;
 import com.sdd.sindikasi.domain.Mdebitur;
 import com.sdd.sindikasi.domain.Mdeclinecode;
 import com.sdd.sindikasi.domain.Mrm;
+import com.sdd.sindikasi.domain.Mrmgroup;
 import com.sdd.sindikasi.domain.Msector;
 import com.sdd.sindikasi.domain.Munit;
 import com.sdd.sindikasi.domain.Muser;
@@ -123,10 +126,12 @@ public class PipelineFormVm {
 	private BigDecimal selfportion;
 	private BigDecimal selfportionamount = new BigDecimal(0);
 	private BigDecimal feeamount = new BigDecimal(0);
-	
+
 	private int nopart;
 	private int nodoc;
 	private int nomemo;
+
+	private Mrmgroup objRmgroup;
 
 	@Wire
 	private Caption caption;
@@ -183,6 +188,13 @@ public class PipelineFormVm {
 	@Wire
 	private Div divFiles;
 
+	@Wire
+	private Grid gridCreditFacility;
+	@Wire
+	private Combobox cbKipokokcurr, cbKiidccurr, cbKmkcurr, cbTermloancurr, cbCorploancurr, cbNclcurr;
+	@Wire
+	private Decimalbox dbKipokok, dbKiidc, dbKmk, dbTermloan, dbCorploan, dbNcl;
+
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view, @ExecutionArgParam("obj") Tpipeline obj,
 			@ExecutionArgParam("pageStartNumber") Integer pageStartNumber, @ExecutionArgParam("arg") String arg) {
@@ -237,9 +249,9 @@ public class PipelineFormVm {
 						"createdtime")) {
 					doAddGridMemo(tmemo, objForm);
 				}
-				
-				for (Tpipelinedoc tdoc : tpipelinedocDao.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(),
-						"createdtime")) {
+
+				for (Tpipelinedoc tdoc : tpipelinedocDao
+						.listByFilter("tpipeline.tpipelinepk = " + objForm.getTpipelinepk(), "createdtime")) {
 					doAddGridDoc(tdoc);
 				}
 
@@ -260,12 +272,12 @@ public class PipelineFormVm {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Command
 	public void doUpload(@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx) {
 		try {
 			UploadEvent event = (UploadEvent) ctx.getTriggerEvent();
-			for (final Media media: event.getMedias()) {
+			for (final Media media : event.getMedias()) {
 				listMedia.add(media);
 				final Hlayout hlayout = new Hlayout();
 				hlayout.appendChild(new Label(media.getName()));
@@ -278,14 +290,13 @@ public class PipelineFormVm {
 						listMedia.remove(media);
 					}
 
-					
 				});
-				hlayout.appendChild(aDel);				
-				divFiles.appendChild(hlayout);				
-			}		    						
+				hlayout.appendChild(aDel);
+				divFiles.appendChild(hlayout);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	    
+		}
 	}
 
 	@Command
@@ -317,11 +328,13 @@ public class PipelineFormVm {
 		final Row row = new Row();
 		row.appendChild(new Label(String.valueOf(++nopart)));
 		row.appendChild(new Label(obj.getParticipantname()));
-		row.appendChild(new Label(AppData.getAgentType(obj.getIsagentfac(), obj.getIsagentcol(), obj.getIsagentesc())));		
-		/*row.appendChild(new Label(obj.getCurrency() + " " + decimalLocalFormatter.format(obj.getPortionamount())));
-		row.appendChild(new Label(obj.getPicname()));
-		row.appendChild(new Label(obj.getPichp()));
-		row.appendChild(new Label(obj.getPicemail()));*/
+		row.appendChild(new Label(AppData.getAgentType(obj.getIsagentfac(), obj.getIsagentcol(), obj.getIsagentesc())));
+		/*
+		 * row.appendChild(new Label(obj.getCurrency() + " " +
+		 * decimalLocalFormatter.format(obj.getPortionamount()))); row.appendChild(new
+		 * Label(obj.getPicname())); row.appendChild(new Label(obj.getPichp()));
+		 * row.appendChild(new Label(obj.getPicemail()));
+		 */
 		Button btnDel = new Button("Delete");
 		btnDel.setZclass("btn btn-sm btn-danger");
 		btnDel.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
@@ -372,7 +385,7 @@ public class PipelineFormVm {
 					Messagebox.EXCLAMATION);
 		}
 	}
-	
+
 	private void doAddGridDoc(final Tpipelinedoc obj) {
 		final Row row = new Row();
 		row.appendChild(new Label(String.valueOf(++nodoc)));
@@ -382,13 +395,13 @@ public class PipelineFormVm {
 			public void onEvent(Event event) throws Exception {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("docpath", AppUtils.FILES_ROOT_PATH + AppUtils.DOC_PATH + obj.getFilename());
-				
+
 				Window win = (Window) Executions.createComponents("/view/docviewer.zul", null, map);
-				win.setClosable(true);				
+				win.setClosable(true);
 				win.doModal();
 			}
 		});
-		row.appendChild(a);		
+		row.appendChild(a);
 		row.appendChild(new Label(datetimelocalFormatter.format(obj.getCreatedtime())));
 		row.appendChild(new Label(obj.getCreatedby()));
 
@@ -418,8 +431,8 @@ public class PipelineFormVm {
 
 	private void doAddGridMemo(final Tmemo obj, final Tpipeline tpipeline) {
 		final Row row = new Row();
-		row.appendChild(new Label(String.valueOf(++nomemo)));	
-		row.appendChild(new Label(obj.getMemo()));		
+		row.appendChild(new Label(String.valueOf(++nomemo)));
+		row.appendChild(new Label(obj.getMemo()));
 		row.appendChild(new Label(datetimelocalFormatter.format(obj.getCreatedtime())));
 		row.appendChild(new Label(obj.getCreatedby()));
 
@@ -543,7 +556,7 @@ public class PipelineFormVm {
 			objForm.setUpdatedby(oUser.getUserid());
 
 			oDao.save(session, objForm);
-			
+
 			for (Tpipelinepart obj : listDelPart) {
 				tpipelinepartDao.delete(session, obj);
 			}
@@ -556,24 +569,24 @@ public class PipelineFormVm {
 
 				tpipelinepartDao.save(session, obj);
 			}
-			
+
 			for (Tmemo obj : listDelMemo) {
 				tmemoDao.delete(session, obj);
 			}
 
 			for (Tmemo obj : listNewMemo) {
 				obj.setTpipeline(objForm);
-				
+
 				tmemoDao.save(session, obj);
 			}
-			
+
 			for (Tpipelinedoc obj : listDelDoc) {
 				tpipelinedocDao.delete(session, obj);
 			}
-			
+
 			String path = Executions.getCurrent().getDesktop().getWebApp()
 					.getRealPath(AppUtils.FILES_ROOT_PATH + AppUtils.DOC_PATH);
-			for (Media media: listMedia) {				
+			for (Media media : listMedia) {
 				if (media.isBinary()) {
 					Files.copy(new File(path + "/" + media.getName()), media.getStreamData());
 				} else {
@@ -581,7 +594,7 @@ public class PipelineFormVm {
 					Files.copy(writer, media.getReaderData());
 					writer.close();
 				}
-				
+
 				Tpipelinedoc doc = new Tpipelinedoc();
 				doc.setTpipeline(objForm);
 				doc.setFilename(media.getName());
@@ -626,6 +639,96 @@ public class PipelineFormVm {
 		}
 	}
 
+	@Command
+	public void doLoadRmByRmgroup(@BindingParam("obj") Mrmgroup obj) {
+		if (obj != null) {
+			cbRm.getChildren().clear();
+			try {
+				for(Mrm objRm : new MrmDAO().listByFilter("mrmgroup.mrmgrouppk = " + obj.getMrmgrouppk(), "rmname")) {
+					Comboitem item = new Comboitem(objRm.getRmname());
+					item.setValue(objRm);
+					cbRm.appendChild(item);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Command
+	public void doCheckedall(@BindingParam("checked") Boolean checked) {
+		if (gridCreditFacility.getRows() != null && gridCreditFacility.getRows().getChildren() != null) {
+			List<Row> components = gridCreditFacility.getRows().getChildren();
+			for (Row comp : components) {
+				Checkbox chk = (Checkbox) comp.getChildren().get(0);
+				if (checked) {
+					if (!chk.isChecked()) {
+						chk.setChecked(true);
+						doCheckCreditFacility(true, "all");
+					}
+				} else {
+					if (chk.isChecked()) {
+						chk.setChecked(false);
+						doCheckCreditFacility(false, "all");
+					}
+				}
+			}
+		}
+	}
+
+	@Command
+	public void doCheckCreditFacility(@BindingParam("checked") Boolean isChecked,
+			@BindingParam("facility") String facility) {
+		if (isChecked && (facility.equals("kipokok") || facility.equals("all"))) {
+			cbKipokokcurr.setDisabled(false);
+			dbKipokok.setReadonly(false);
+		} else {
+			cbKipokokcurr.setSelectedItem(null);
+			cbKipokokcurr.setDisabled(true);
+			dbKipokok.setReadonly(true);
+		}
+		if (isChecked && (facility.equals("kiidc") || facility.equals("all"))) {
+			cbKiidccurr.setDisabled(false);
+			dbKiidc.setReadonly(false);
+		} else {
+			cbKiidccurr.setSelectedItem(null);
+			cbKiidccurr.setDisabled(true);
+			dbKiidc.setReadonly(true);
+		}
+		if (isChecked && (facility.equals("kmk") || facility.equals("all"))) {
+			cbKmkcurr.setDisabled(false);
+			dbKmk.setReadonly(false);
+		} else {
+			cbKmkcurr.setSelectedItem(null);
+			cbKmkcurr.setDisabled(true);
+			dbKmk.setReadonly(true);
+		}
+		if (isChecked && (facility.equals("termloan") || facility.equals("all"))) {
+			cbTermloancurr.setDisabled(false);
+			dbTermloan.setReadonly(false);
+		} else {
+			cbTermloancurr.setSelectedItem(null);
+			cbTermloancurr.setDisabled(true);
+			dbTermloan.setReadonly(true);
+		}
+		if (isChecked && (facility.equals("corploan") || facility.equals("all"))) {
+			cbCorploancurr.setDisabled(false);
+			dbCorploan.setReadonly(false);
+		} else {
+			cbCorploancurr.setSelectedItem(null);
+			cbCorploancurr.setDisabled(true);
+			dbCorploan.setReadonly(true);
+		}
+		if (isChecked && (facility.equals("ncl") || facility.equals("all"))) {
+			cbNclcurr.setDisabled(false);
+			dbNcl.setReadonly(false);
+		} else {
+			cbNclcurr.setSelectedItem(null);
+			cbNclcurr.setDisabled(true);
+			dbNcl.setReadonly(true);
+		}
+	}
+
 	@Command()
 	@NotifyChange("*")
 	public void doClose() {
@@ -642,12 +745,12 @@ public class PipelineFormVm {
 			nopart = 0;
 			nodoc = 0;
 			nomemo = 0;
-			
+
 			objForm = new Tpipeline();
 			objForm.setProjectcurrency("IDR");
 			objForm.setCreditfacilitycurr("IDR");
 			objForm.setSelfportioncurrency("IDR");
-			
+
 			isInsert = true;
 			isSaved = false;
 			listPipelinepart = new ArrayList<Tpipelinepart>();
@@ -673,6 +776,8 @@ public class PipelineFormVm {
 			}
 
 			doResetPart();
+			
+			doCheckCreditFacility(false, "all");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -714,7 +819,7 @@ public class PipelineFormVm {
 					this.addInvalidMessage(ctx, "selfportion", Labels.getLabel("common.validator.empty"));
 				if (targetpk == null)
 					this.addInvalidMessage(ctx, "targetpk", Labels.getLabel("common.validator.empty"));
-				
+
 			}
 		};
 	}
@@ -724,7 +829,7 @@ public class PipelineFormVm {
 
 			public void validate(ValidationContext ctx) {
 				String participantname = (String) ctx.getProperties("participantname")[0].getValue();
-				
+
 				if (participantname == null || "".equals(participantname.trim()))
 					this.addInvalidMessage(ctx, "participantname", Labels.getLabel("common.validator.empty"));
 			}
@@ -792,6 +897,16 @@ public class PipelineFormVm {
 		return lm;
 	}
 
+	public ListModelList<Mrmgroup> getMrmgroupmodel() {
+		ListModelList<Mrmgroup> lm = null;
+		try {
+			lm = new ListModelList<Mrmgroup>(new MrmgroupDAO().listByFilter("0=0", "rmgroupcode"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lm;
+	}
+
 	public Tpipeline getObjForm() {
 		return objForm;
 	}
@@ -838,6 +953,14 @@ public class PipelineFormVm {
 
 	public void setFeeamount(BigDecimal feeamount) {
 		this.feeamount = feeamount;
+	}
+
+	public Mrmgroup getObjRmgroup() {
+		return objRmgroup;
+	}
+
+	public void setObjRmgroup(Mrmgroup objRmgroup) {
+		this.objRmgroup = objRmgroup;
 	}
 
 }

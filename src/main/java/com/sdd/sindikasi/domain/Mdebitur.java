@@ -36,6 +36,10 @@ public class Mdebitur implements Serializable {
 	private String officeemail;
 	private String officefax;
 	private String officephone;
+	private String picname;
+	private String picposition;
+	private String picphone;
+	private String picemail;
 	private String updatedby;
 
 	public Mdebitur() {
@@ -160,6 +164,46 @@ public class Mdebitur implements Serializable {
 
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
+	}
+	
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicname() {
+		return picname;
+	}
+
+	public void setPicname(String picname) {
+		this.picname = picname;
+	}
+	
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicposition() {
+		return picposition;
+	}
+
+	public void setPicposition(String picposition) {
+		this.picposition = picposition;
+	}
+	
+	@Column(length = 40)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicphone() {
+		return picphone;
+	}
+
+	public void setPicphone(String picphone) {
+		this.picphone = picphone;
+	}
+	
+	@Column(length = 100)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getPicemail() {
+		return picemail;
+	}
+
+	public void setPicemail(String picemail) {
+		this.picemail = picemail;
 	}
 
 }

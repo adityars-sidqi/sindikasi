@@ -1,0 +1,426 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<div class="container" align="center">
+		<window id="win" width="800px"
+			viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.PipelineFormVm')"
+			validationMessages="@id('vmsgs')">
+			<caption label="Data Pipeline" visible="false" id="caption" />
+			<div class="card">
+				<div class="card-header">
+					<n:h5 class="panel-title">
+						<n:span class="far fa-check-square" />
+						Form Pipeline
+					</n:h5>
+				</div>
+				<div class="card-body"
+					form="@id('e') @load(vm.objForm)  @save(vm.objForm, before='doSave') @validator(vm.validator)">
+					<groupbox mold="3d">
+						<caption label="Data Project" />
+						<grid
+							zclass="table table-striped table-sm mb-0 p-0">
+							<columns>
+								<column width="150px" />
+								<column />
+							</columns>
+							<rows>
+								<row id="rowReg">
+									<label
+										value="${labels.pipeline.regid}" />
+									<textbox value="@bind(e.regid)"
+										width="100%" maxlength="13" readonly="true" />
+								</row>
+								<row>
+									<label
+										value="${labels.debitur.debitur}" />
+									<vlayout>
+										<combobox id="cbDebitur"
+											readonly="true" model="@load(vm.mdebitur)" width="100%"
+											selectedItem="@bind(e.mdebitur)">
+											<template name="model"
+												var="mdebitur">
+												<comboitem
+													label="@load(mdebitur.debitur)" />
+											</template>
+										</combobox>
+										<label style="color:red"
+											value="@load(vmsgs['mdebitur'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.project}" />
+									<vlayout>
+										<textbox
+											value="@bind(e.project)" width="100%" maxlength="100" />
+										<label style="color:red"
+											value="@load(vmsgs['project'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.sector.sectorname}" />
+									<vlayout>
+										<combobox id="cbSector"
+											readonly="true" model="@load(vm.msector)" width="100%"
+											selectedItem="@bind(e.msector)">
+											<template name="model"
+												var="msector">
+												<comboitem
+													label="@load(msector.sectorname)" />
+											</template>
+										</combobox>
+										<label style="color:red"
+											value="@load(vmsgs['msector'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.unit.unitname }" />
+									<vlayout>
+										<combobox id="cbUnit"
+											readonly="true" model="@load(vm.munit)" cols="10"
+											selectedItem="@bind(e.munit)">
+											<template name="model"
+												var="munit">
+												<comboitem
+													label="@load(munit.unitname)" />
+											</template>
+										</combobox>
+										<label style="color:red"
+											value="@load(vmsgs['munit'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.projectamount}" />
+									<vlayout>
+										<hlayout>
+											<combobox id="cbCurrency"
+												readonly="true" model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.projectcurrency)">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox
+												value="@bind(e.projectamount)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+										</hlayout>
+										<label style="color:red"
+											value="@load(vmsgs['projectamount'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.creditfacility}" />
+									<vlayout>
+										<hlayout>
+											<combobox readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.creditfacilitycurr)">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox
+												value="@bind(e.creditfacility)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+										</hlayout>
+										<label style="color:red"
+											value="@load(vmsgs['creditfacility'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.selfportion }" />
+									<vlayout>
+										<hlayout>
+											<combobox
+												id="cbSelfportionCurrency" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.selfportioncurrency)">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox
+												value="@bind(e.selfportion)" format="#,###"
+												onChange="@command('doFeeCal', percent=e.feepercent, selfamount=e.selfportion)"
+												cols="20" maxlength="20" style="text-align: right" />
+										</hlayout>
+										<label style="color:red"
+											value="@load(vmsgs['selfportion'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.agenttype.agentcode }" />
+									<div>
+										<hlayout>
+											<checkbox id="chkAgentFac"
+												label="Facility" />
+											<checkbox id="chkAgentCol"
+												label="Collateral" />
+											<checkbox id="chkAgentEsc"
+												label="Escrow" />
+										</hlayout>
+									</div>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.feepercent }" />
+									<hlayout>
+										<decimalbox
+											value="@bind(e.feepercent)" width="100%" maxlength="3"
+											cols="3" style="text-align: right"
+											onChange="@command('doFeeCal', percent=e.feepercent, selfamount=e.selfportion)" />
+										<label value="%" />
+										<label />
+										<label
+											value="${labels.pipeline.feeamount }" />
+										<combobox
+											model="@load(vm.mcurreny)" width="70px"
+											selectedItem="@bind(e.selfportioncurrency)"
+											disabled="true">
+											<template name="model"
+												var="mcurrency">
+												<comboitem
+													label="@load(mcurrency)" />
+											</template>
+										</combobox>
+										<decimalbox
+											value="@bind(vm.feeamount)" format="#,###" cols="30"
+											readonly="true" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<label value="Credit Plan" />
+									<hlayout>
+										<intbox
+											value="@bind(e.creditplan)" cols="5" maxlength="5" />
+										<label value="Month" />
+									</hlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.targetpk }" />
+									<vlayout>
+										<datebox
+											value="@bind(e.targetpk)" format="dd-MM-yyyy" cols="10"
+											maxlength="10" />
+										<label style="color:red"
+											value="@load(vmsgs['targetpk'])" />
+									</vlayout>
+								</row>
+							</rows>
+						</grid>
+					</groupbox>
+					<n:hr />
+					<groupbox mold="3d">
+						<caption label="Data Participant" />
+						<n:h6>Form Participant</n:h6>
+						<grid id="gridFormParticipant"
+							form="@id('f') @load(vm.objPart)  @save(vm.objPart, before='doSavePart') @validator(vm.validatorPart)"
+							zclass="table table-striped table-sm mb-0 p-0">
+							<columns>
+								<column width="150px" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<label
+										value="${labels.pipelinepart.participantname}" />
+									<vlayout>
+										<textbox
+											value="@bind(f.participantname)" maxlength="100"
+											width="100%" />
+										<label style="color:red"
+											value="@load(vmsgs['participantname'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.agenttype.agentcode }" />
+									<div>
+										<hlayout>
+											<checkbox
+												id="chkAgentFacPart" label="Facility" />
+											<checkbox
+												id="chkAgentColPart" label="Collateral" />
+											<checkbox
+												id="chkAgentEscPart" label="Escrow" />
+										</hlayout>
+									</div>
+								</row>
+							</rows>
+							<foot>
+								<footer />
+								<footer>
+									<button label="Add Participant"
+										sclass="btn btn-default btn-sm" autodisable="self"
+										onClick="@command('doSavePart')" />
+								</footer>
+							</foot>
+						</grid>
+						<n:hr />
+						<n:h6>List Participants</n:h6>
+						<grid id="gridParticipant"
+							emptyMessage="${labels.common.emptymsg}">
+							<columns>
+								<column label="${labels.common.no }"
+									align="right" width="40px" />
+								<column
+									label="${labels.pipelinepart.participantname}" />
+								<column
+									label="${labels.agenttype.agentcode}" />
+								<column label="${labels.common.action }"
+									align="center" width="120px" />
+							</columns>
+							<rows />
+						</grid>
+					</groupbox>
+
+					<n:hr />
+					<groupbox mold="3d">
+						<caption label="Document" />
+						<n:h6>Upload Document</n:h6>
+						<grid
+							zclass="table table-striped table-sm mb-0 p-0">
+							<columns>
+								<column width="150px" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<label value="File" />
+									<vlayout>
+										<button id="btnBrowse"
+											label="Browse File..." upload="true, maxsize=500000, multiple=true"
+											sclass="btn btn-default btn-sm"
+											onUpload="@command('doUpload', upEvent=event)" />
+										<div id="divFiles" />
+									</vlayout>
+								</row>
+							</rows>							
+						</grid>
+						<separator />
+						<n:h6>List Documents</n:h6>
+						<grid id="gridDoc"
+							emptyMessage="${labels.common.emptymsg }">
+							<columns>
+								<column label="${labels.common.no}"
+									align="right" width="40px" />
+								<column label="Filename" />
+								<column label="Upload Time"
+									align="center" width="135px" />
+								<column label="Uploaded By"
+									width="100px" />
+								<column label="${labels.common.action}"
+									align="center" width="120px" />
+							</columns>
+							<rows />
+						</grid>
+					</groupbox>
+
+					<n:hr />
+					<groupbox mold="3d">
+						<caption label="Memo" />
+						<n:h6>Form Memo</n:h6>
+						<grid id="gridFormMemo"
+							zclass="table table-striped table-sm mb-0 p-0">
+							<columns>
+								<column width="150px" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<label
+										value="${labels.common.memo}" />
+									<textbox value="@bind(vm.memo)"
+										maxlength="200" cols="70" rows="3" />
+								</row>
+							</rows>
+							<foot>
+								<footer />
+								<footer>
+									<button autodisable="self"
+										sclass="btn btn-default btn-sm" label="Add Memo"
+										onClick="@command('doSaveMemo')" />
+								</footer>
+							</foot>
+						</grid>
+						<separator />
+						<n:h6>List Memo</n:h6>
+						<grid id="gridMemo"
+							emptyMessage="${labels.common.emptymsg }">
+							<columns>
+								<column label="${labels.common.no}"
+									align="right" width="40px" />
+								<column label="${labels.common.memo}" />
+								<column
+									label="${labels.common.createdtime}" align="center"
+									width="135px" />
+								<column
+									label="${labels.common.createdby}" width="100px" />
+								<column label="${labels.common.action}"
+									align="center" width="120px" />
+							</columns>
+							<rows />
+						</grid>
+					</groupbox>
+					<separator />
+					<groupbox mold="3d" id="gbChangestatus">
+						<caption label="Change Status" />
+						<grid>
+							<columns>
+								<column width="150px" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<label
+										value="${labels.common.status }" />
+									<combobox id="cbStatus"
+										selectedItem="@bind(e.status)"
+										onSelect="@command('doLoadDeclinecode', status=e.status)">
+									</combobox>
+								</row>
+								<row id="rowApprove">
+									<label
+										value="${labels.pipeline.selfportion }" />
+									<decimalbox
+										value="@bind(vm.selfportion)" format="#,###" />
+								</row>
+								<row id="rowDecline">
+									<label
+										value="${labels.declinecode.declinedesc }" />
+									<combobox id="cbDeclinecode"
+										model="@load(vm.mdeclinecode)" width="100%">
+										<template name="model"
+											var="mdeclinecode">
+											<comboitem
+												label="@load(mdeclinecode.declinedesc)" />
+										</template>
+									</combobox>
+								</row>
+							</rows>
+						</grid>
+					</groupbox>
+				</div>
+				<div class="card-footer" align="center">
+					<n:div class="btn-group" role="group">
+						<button id="btnSubmit" autodisable="self"
+							sclass="btn btn-sm btn-primary" label="${labels.common.submit}"
+							onClick="@command('doSave')" width="200px" />
+					</n:div>
+				</div>
+			</div>
+		</window>
+	</div>
+</zk>

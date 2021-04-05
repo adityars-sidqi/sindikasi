@@ -219,39 +219,195 @@
 									</vlayout>
 								</row>
 								<row>
-                                    <label
-                                        value="${labels.rmgroup.rmgroupname}" />
-                                    <vlayout>
-                                        <combobox id="cbRmgroup"
-                                            readonly="true" model="@load(vm.mrmgroupmodel)" width="100%"
-                                            selectedItem="@bind(vm.mrmgroup)">
-                                            <template name="model"
-                                                var="mrmgroup">
-                                                <comboitem
-                                                    label="@load(mrmgroup.rmgroupname)" />
-                                            </template>
-                                        </combobox>
-                                        <label style="color:red"
-                                            value="@load(vmsgs['mrm'])" />
-                                    </vlayout>
-                                </row>
-                                <row>
-                                    <label
-                                        value="${labels.rm.rmname}" />
-                                    <vlayout>
-                                        <combobox id="cbRm"
-                                            readonly="true" model="@load(vm.mrmmodel)" width="100%"
-                                            selectedItem="@bind(e.mrm)">
-                                            <template name="model"
-                                                var="mrm">
-                                                <comboitem
-                                                    label="@load(mrm.rmname)" />
-                                            </template>
-                                        </combobox>
-                                        <label style="color:red"
-                                            value="@load(vmsgs['mrm'])" />
-                                    </vlayout>
-                                </row>
+									<label
+										value="${labels.rmgroup.rmgroupname}" />
+									<vlayout>
+										<combobox id="cbRmgroup"
+											model="@load(vm.mrmgroupmodel)" width="100%"
+											selectedItem="@bind(vm.objRmgroup)"
+											onChange="@command('doLoadRmByRmgroup', obj=vm.objRmgroup)">
+											<template name="model"
+												var="mrmgroup">
+												<comboitem
+													label="@load(mrmgroup.rmgroupname)" />
+											</template>
+										</combobox>
+									</vlayout>
+								</row>
+								<row>
+									<label value="${labels.rm.rmname}" />
+									<vlayout>
+										<combobox id="cbRm"
+											readonly="true" width="100%" selectedItem="@bind(e.mrm)">
+										</combobox>
+										<label style="color:red"
+											value="@load(vmsgs['mrm'])" />
+									</vlayout>
+								</row>
+								<row>
+									<label
+										value="${labels.pipeline.participantportion}" />
+									<vlayout>
+										<hlayout>
+											<combobox
+												id="cbParticipantcurrency" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.participantportioncurrency)">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox
+												value="@bind(e.participantportion)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+										</hlayout>
+										<label style="color:red"
+											value="@load(vmsgs['participantportion'])" />
+									</vlayout>
+								</row>
+
+							</rows>
+						</grid>
+					</groupbox>
+					<n:hr />
+					<groupbox mold="3d">
+						<caption label="Data Credit Facility" />
+						<n:h6>Credit Facility</n:h6>
+						<grid id="gridCreditFacility"
+							emptyMessage="${labels.common.emptymsg}">
+							<columns>
+								<column align="center" width="60px">
+									<checkbox id="chkAll"
+										onCheck="@command('doCheckedall', checked=self.checked)" />
+								</column>
+								<column
+									label="${labels.pipeline.creditfacility}" />
+								<column
+									label="${labels.common.amount}" />
+							</columns>
+							<rows>
+								<row>
+									<checkbox id="chkKipokok"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='kipokok')" />
+									<label value="${labels.pipeline.kipokok }" />
+									<hlayout>
+										<combobox
+												id="cbKipokokcurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.kipokokcurr)" disabled="true">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbKipokok" readonly="true"
+												value="@bind(e.kipokok)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<checkbox id="chkKiidc"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='kiidc')" />
+									<label value="${labels.pipeline.kiidc }" />
+									<hlayout>
+										<combobox
+												id="cbKiidccurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.kiidccurr)" disabled="true">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbKiidc" readonly="true"
+												value="@bind(e.kiidc)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<checkbox id="chkKmk"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='kmk')" />
+									<label value="${labels.pipeline.kmk }" />
+									<hlayout>
+										<combobox
+												id="cbKmkcurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.kmkcurr)" disabled="true">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbKmk" readonly="true"
+												value="@bind(e.kmk)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<checkbox id="chkTermloan"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='termloan')" />
+									<label value="${labels.pipeline.termloan }" />
+									<hlayout>
+										<combobox
+												id="cbTermloancurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.termloancurr)" disabled="true">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbTermloan" readonly="true"
+												value="@bind(e.termloan)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<checkbox id="chkCorploan"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='corploan')" />
+									<label value="${labels.pipeline.corploan }" />
+									<hlayout>
+										<combobox
+												id="cbCorploancurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.corploancurr)" disabled="true">
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbCorploan" readonly="true"
+												value="@bind(e.corploan)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
+								<row>
+									<checkbox id="chkNcl"
+										onCheck="@command('doCheckCreditFacility', checked=self.checked, facility='ncl')" />
+									<label value="${labels.pipeline.ncl }" />
+									<hlayout>
+										<combobox
+												id="cbNclcurr" readonly="true"
+												model="@load(vm.mcurreny)" width="70px"
+												selectedItem="@bind(e.nclcurr)" disabled="true" >
+												<template name="model"
+													var="mcurrency">
+													<comboitem
+														label="@load(mcurrency)" />
+												</template>
+											</combobox>
+											<decimalbox id="dbNcl" readonly="true"
+												value="@bind(e.ncl)" format="#,###" cols="20"
+												maxlength="20" style="text-align: right" />
+									</hlayout>
+								</row>
 							</rows>
 						</grid>
 					</groupbox>
@@ -335,13 +491,14 @@
 									<label value="File" />
 									<vlayout>
 										<button id="btnBrowse"
-											label="Browse File..." upload="true, maxsize=500000, multiple=true"
+											label="Browse File..."
+											upload="true, maxsize=500000, multiple=true"
 											sclass="btn btn-default btn-sm"
 											onUpload="@command('doUpload', upEvent=event)" />
 										<div id="divFiles" />
 									</vlayout>
 								</row>
-							</rows>							
+							</rows>
 						</grid>
 						<separator />
 						<n:h6>List Documents</n:h6>

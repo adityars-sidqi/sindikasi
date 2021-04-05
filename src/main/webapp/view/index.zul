@@ -15,7 +15,7 @@
 
 		</north>
 		<west border="none" collapsible="true" width="220px"
-			splittable="true" title="SDK System">
+			splittable="true" title="SSK System">
 			<div id="divMenu" height="100%">
 				<vlayout height="100%">
 					<tree id="tree" vflex="true" 

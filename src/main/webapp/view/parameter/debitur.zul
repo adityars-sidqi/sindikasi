@@ -99,6 +99,50 @@
 								value="@load(vmsgs['diremail'])" />
 						</n:td>
 					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.picname}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.picname)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['picname'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.picposition}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.picposition)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['picposition'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.picphone}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.picphone)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['picphone'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.debitur.picemail}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.picemail)" cols="40"
+								maxlength="40" />
+							<label style="color:red"
+								value="@load(vmsgs['picemail'])" />
+						</n:td>
+					</n:tr>
 				</n:table>
 			</div>
 			<div class="card-footer">

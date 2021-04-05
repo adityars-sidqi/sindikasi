@@ -1,0 +1,106 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.PipelineActivityVm')"
+		validationMessages="@id('vmsgs')">
+		<caption visible="false" id="caption" />
+		<div class="card">
+			<div class="card-header">
+				<n:h5 class="panel-title">
+					<n:span class="fas fa-list" />
+					Pipeline Activity
+				</n:h5>
+			</div>
+			<div class="card-body">
+				<div zclass="row">
+					<div zclass="col">
+						<groupbox mold="3d" id="gbSearch">
+							<caption label="${labels.common.searching}"
+								image="/resources/images/search.png" />
+							<grid>
+								<columns>
+									<column width="150px" />
+									<column />
+								</columns>
+								<rows>
+									<row>
+										<label
+											value="${labels.debitur.debitur }" />
+										<textbox
+											value="@bind(vm.debitur)" cols="50" maxlength="100" />
+									</row>
+									<row>
+										<label
+											value="${labels.sector.sectorname}" />
+										<combobox id="cbSector" cols="70"
+											readonly="true" model="@load(vm.msectorModel)"
+											selectedItem="@bind(vm.msector)">
+											<template name="model"
+												var="msector">
+												<comboitem
+													label="@load(msector.sectorname)" />
+											</template>
+										</combobox>
+									</row>
+									<row>
+										<label
+											value="${labels.unit.unitname}" />
+										<combobox id="cbUnit"
+											readonly="true" model="@load(vm.munitModel)"
+											selectedItem="@bind(vm.munit)">
+											<template name="model"
+												var="munit">
+												<comboitem
+													label="@load(munit.unitcode)" />
+											</template>
+										</combobox>
+									</row>
+								</rows>
+								<foot>
+									<footer />
+									<footer>
+										<div class="row">
+											<div class="col-md-6">
+												<n:div class="btn-group"
+													role="group">
+													<button
+														autodisable="self" sclass="btn btn-info btn-sm"
+														label="${labels.common.search}"
+														onClick="@command('doSearch')" />
+													<button
+														autodisable="self" sclass="btn btn-default btn-sm"
+														label="${labels.common.reset}"
+														onClick="@command('doReset')" />
+												</n:div>
+											</div>
+										</div>
+									</footer>
+								</foot>
+							</grid>
+						</groupbox>
+					</div>
+				</div>
+				<separator />
+				<div class="row">
+					<div class="col-md-10">
+						<paging id="paging" autohide="true" />
+					</div>
+					<div class="col-md-2" align="right">
+						<label value="${labels.common.totalrecord} :"
+							style="font-weight: bold" />
+						<label value="@load(vm.pageTotalSize)"
+							style="font-weight: bold" />
+					</div>
+				</div>
+				<grid id="grid" emptyMessage="${labels.common.emptymsg}">
+					<columns>
+						<column label="${labels.common.no}" align="right" width="40px" />
+						<column label="Informasi Awal" />
+						<column label="Update" />
+						<column label="Target" align="center" width="120px" />
+					</columns>
+				</grid>				
+			</div>
+		</div>
+	</window>
+</zk>

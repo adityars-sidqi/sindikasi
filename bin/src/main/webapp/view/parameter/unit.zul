@@ -1,0 +1,110 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.MunitVm')"
+		validationMessages="@id('vmsgs')" style="padding:0px">
+		<div class="card"
+			form="@id('e') @load(vm.objForm) @save(vm.objForm, before='doSave') @validator(vm.validator)">
+			<div class="card-header">
+				<n:h5>Unit</n:h5>
+			</div>
+			<div zclass="card-body p-0">
+				<n:table class="table table-striped table-sm m-0">
+					<n:tr>
+						<n:td width="200px">
+							${labels.unit.unitcode}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.unitcode)" cols="5"
+								maxlength="5" />
+							<label style="color:red"
+								value="@load(vmsgs['unitcode'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td width="200px">
+							${labels.unit.unitname}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.unitname)" cols="50"
+								maxlength="50" />
+							<label style="color:red"
+								value="@load(vmsgs['unitname'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td>
+							${labels.unit.unitcostcenter}
+						</n:td>
+						<n:td>
+							<textbox value="@bind(e.unitcostcenter)"
+								cols="10" maxlength="10" />
+							<label style="color:red"
+								value="@load(vmsgs['unitcostcenter'])" />
+						</n:td>
+					</n:tr>
+					<n:tr>
+						<n:td>
+							Instansi
+						</n:td>
+						<n:td>
+							<radiogroup selectedItem="@bind(e.isbumn)">
+								<radio value="Y" label="BUMN" />
+								<radio value="N" label="Non BUMN" />
+							</radiogroup>
+						</n:td>
+					</n:tr>
+				</n:table>
+			</div>
+			<div class="card-footer">
+				<n:div class="btn-group btn-group-sm" role="group"
+					aria-label="Basic example">
+					<button id="btnSave" sclass="btn btn-primary btn-sm"
+						label="${labels.common.save}" onClick="@command('doSave')" />
+					<button id="btnCancel" sclass="btn btn-info btn-sm"
+						label="${labels.common.cancel}" onClick="@command('doCancel')" />
+					<button id="btnDelete"
+						sclass="btn btn-danger btn-sm" label="${labels.common.del}"
+						onClick="@command('doDelete')" />
+				</n:div>
+			</div>
+		</div>
+		<separator />
+		<div class="row">
+			<div class="col-md-10">
+				<paging id="paging" autohide="true" />
+			</div>
+			<div class="col-md-2" align="right">
+				<label value="${labels.common.totalrecord} :"
+					style="font-weight: bold" />
+				<label value="@load(vm.pageTotalSize)"
+					style="font-weight: bold" />
+			</div>
+		</div>
+		<listbox id="listbox" emptyMessage="${labels.common.emptymsg}"
+			selectedItem="@bind(vm.objForm)">
+			<listhead>
+				<listheader label="${labels.common.no}" align="right"
+					width="40px" />
+				<listheader sort="auto(unitcode)">
+					<textbox inplace="true" class="cheader"
+						value="@bind(vm.unitcode)" cols="15" maxlength="5"
+						placeholder="${labels.unit.unitcode }"
+						tooltiptext=" ${labels.common.searchonheader }"
+						onOK="@command('doSearch')" />
+				</listheader>
+				<listheader sort="auto(unitname)">
+					<textbox inplace="true" class="cheader"
+						value="@bind(vm.unitname)" cols="50" maxlength="50"
+						placeholder="${labels.unit.unitname }"
+						tooltiptext="${labels.common.searchonheader}"
+						onOK="@command('doSearch')" />
+				</listheader>
+				<listheader label="${labels.unit.unitcostcenter }" />
+				<listheader label="Instansi" />
+				<listheader label="${labels.common.updatedby }" width="150px" />
+				<listheader label="${labels.common.lastupdated }" align="center" width="150px" />
+			</listhead>
+		</listbox>
+	</window>
+</zk>

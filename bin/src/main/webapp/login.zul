@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" type="image/x-icon" href="/images/app_icon.ico" ?>
+
+<!-- Favicon and touch icons -->
+<?link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png" ?>
+<?link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png" ?>
+<?link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png" ?>
+<?link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png" ?>
+
+<?link rel="stylesheet" type="text/css"	href="/resources/css/all.css" ?>
+<?link rel="stylesheet" type="text/css"	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" ?>
+<?link rel="stylesheet" type="text/css"	href="/resources/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" type="text/css"	href="/resources/css/mdb.min.css" ?>
+
+<zk xmlns:w="client" xmlns:n="native">
+	<style>
+		#fmlogin { background-color: white; border-radius: 20px;
+		padding-top: 40px; padding-bottom: 10px; }
+	</style>
+	<div id="bdlogin" class="container-fluid"
+		style="background-image: url('resources/images/bg-01.jpg'); background-repeat: no-repeat; background-attachment: inherit;
+		background-position: center; background-size: cover;"
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.AuthentificationVm')">
+		<div class="row animated fadeIn vh-100">
+			<div class="col-md-4 offset-md-7 text-center my-auto">
+				<!-- <n:img src="resources/images/sindikasi_brand.png"
+					class="img-fluid mb-4" width="220px" height="55px">
+				</n:img> -->
+				<n:h3>Sindikasi Management System</n:h3>
+				<n:br />
+				<n:form id="fmlogin"
+					class="text-center border border-light z-depth-1-half pl-4 pr-4">
+					<label sclass="text-danger"
+						value="@bind(vm.lblMessage)" />
+					<textbox id="tbUsername" value="@bind(vm.userid)"
+						maxlength="15" focus="true"
+						sclass="form-control form-control-md mb-4 rounded-pill"
+						placeholder="Username" />
+					<textbox id="tbPassword" value="@bind(vm.password)"
+						type="password" maxlength="20"
+						sclass="form-control form-control-md mb-4 rounded-pill"
+						onOK="@command('doLogin')" placeholder="Password" />
+					<button onClick="@command('doLogin')" autodisable="self"
+						class="btn btn-info btn-block my-4 rounded-pill" label="LOGIN" />
+
+				</n:form>
+				<n:br/>
+				<n:h5>Divisi Sindikasi</n:h5>
+				<n:h5>PT Bank Negara Indonesia, TBK.</n:h5>
+				<div class="mt-5">
+					<n:span>&#169; Copyright</n:span>
+					<n:img src="resources/images/bni.png" class="img-fluid mr-3"
+						width="60px" height="30px">
+					</n:img>
+					<!-- <n:span>Powered By</n:span>
+					<n:img src="resources/images/sdd.png" class="img-fluid"
+						width="60px" height="30px">
+					</n:img> -->
+				</div>
+			</div>
+			<div class="col-md-1 my-auto"></div>
+		</div>
+	</div>
+
+
+
+	<!-- SCRIPTS -->
+	<!-- JQuery -->
+	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="/resources/js/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="/resources/js/mdb.min.js"></script>
+
+</zk>

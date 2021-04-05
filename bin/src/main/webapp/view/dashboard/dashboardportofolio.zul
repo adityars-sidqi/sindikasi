@@ -1,0 +1,8 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window id="windowPortofolio"
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.IndexPortofolioVm')">
+		<n:h4>Portofolio Dashboard</n:h4>
+		<n:hr></n:hr>
+	</window>
+</zk>

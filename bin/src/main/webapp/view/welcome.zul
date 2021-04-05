@@ -1,0 +1,36 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.IndexVm')">
+		<div class="card">
+			<div class="card-header">
+				<n:h4 class="card-title">
+					<n:i class="fas fa-chart-area"></n:i>
+					SDK Dashboard
+				</n:h4>
+			</div>
+			<div class="card-body">
+
+				<panel border="normal">
+					<panelchildren>
+						<tabbox width="100%" sclass="nav_tabs">
+							<tabs id="tabs">
+								<tab label="Pipeline By Period"
+									onSelect="@command('doTab', tab='period')" />
+								<tab label="Pipeline By Unit"
+									onSelect="@command('doTab', tab='unit')" />
+								<tab label="Pipeline By Sector"
+									onSelect="@command('doTab', tab='sector')" />
+							</tabs>
+						</tabbox>
+						<separator />
+						<div id="divPage">
+						</div>
+					</panelchildren>
+				</panel>
+
+
+			</div>
+		</div>
+	</window>
+</zk>

@@ -192,8 +192,20 @@ public class PipelineActivityVm {
 				divCol1.setClass("col");
 				divCol2 = new Div();
 				divCol2.setClass("col");
-				divCol1.appendChild(new Label("Self Portion"));
+				divCol1.appendChild(new Label("BNI Portion"));
 				divCol2.appendChild(new Label(data.getSelfportioncurrency() + " " + decimalLocalFormatter.format(data.getSelfportion())));
+				divRow.appendChild(divCol1);
+				divRow.appendChild(divCol2);
+				divData.appendChild(divRow);
+				
+				divRow = new Div();
+				divRow.setClass("row");
+				divCol1 = new Div();
+				divCol1.setClass("col");
+				divCol2 = new Div();
+				divCol2.setClass("col");
+				divCol1.appendChild(new Label("Participant Portion"));
+				divCol2.appendChild(new Label(data.getParticipantportioncurrency() + " " + decimalLocalFormatter.format(data.getParticipantportion())));
 				divRow.appendChild(divCol1);
 				divRow.appendChild(divCol2);
 				divData.appendChild(divRow);
@@ -288,6 +300,42 @@ public class PipelineActivityVm {
 				divCol2.setClass("col");
 				divCol1.appendChild(new Label("Fee"));
 				divCol2.appendChild(new Label(data.getFeepercent() + "%"));
+				divRow.appendChild(divCol1);
+				divRow.appendChild(divCol2);
+				divData.appendChild(divRow);
+				
+				divRow = new Div();
+				divRow.setClass("row");
+				divCol1 = new Div();
+				divCol1.setClass("col");
+				divCol2 = new Div();
+				divCol2.setClass("col");
+				divCol1.appendChild(new Label("Debitur PIC Name"));
+				divCol2.appendChild(new Label(data.getMdebitur().getPicname()));
+				divRow.appendChild(divCol1);
+				divRow.appendChild(divCol2);
+				divData.appendChild(divRow);
+				
+				divRow = new Div();
+				divRow.setClass("row");
+				divCol1 = new Div();
+				divCol1.setClass("col");
+				divCol2 = new Div();
+				divCol2.setClass("col");
+				divCol1.appendChild(new Label("Debitur PIC Position"));
+				divCol2.appendChild(new Label(data.getMdebitur().getPicposition()));
+				divRow.appendChild(divCol1);
+				divRow.appendChild(divCol2);
+				divData.appendChild(divRow);
+				
+				divRow = new Div();
+				divRow.setClass("row");
+				divCol1 = new Div();
+				divCol1.setClass("col");
+				divCol2 = new Div();
+				divCol2.setClass("col");
+				divCol1.appendChild(new Label("Debitur PIC Phone"));
+				divCol2.appendChild(new Label(data.getMdebitur().getPicphone()));
 				divRow.appendChild(divCol1);
 				divRow.appendChild(divCol2);
 				divData.appendChild(divRow);

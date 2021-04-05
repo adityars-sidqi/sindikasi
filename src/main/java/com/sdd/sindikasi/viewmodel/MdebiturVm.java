@@ -276,6 +276,10 @@ public class MdebiturVm {
 				String dirname = (String) ctx.getProperties("dirname")[0].getValue();
 				String dirphone = (String) ctx.getProperties("dirphone")[0].getValue();
 				String diremail = (String) ctx.getProperties("diremail")[0].getValue();
+				String picname = (String) ctx.getProperties("picname")[0].getValue();
+				String picposition = (String) ctx.getProperties("picposition")[0].getValue();
+				String picphone = (String) ctx.getProperties("picphone")[0].getValue();
+				String picemail = (String) ctx.getProperties("picemail")[0].getValue();
 
 				if (debitur == null || "".equals(debitur.trim()))
 					this.addInvalidMessage(ctx, "debitur", Labels.getLabel("common.validator.empty"));
@@ -293,6 +297,14 @@ public class MdebiturVm {
 					this.addInvalidMessage(ctx, "dirphone", Labels.getLabel("common.validator.empty"));
 				if (diremail == null || "".equals(diremail.trim()))
 					this.addInvalidMessage(ctx, "diremail", Labels.getLabel("common.validator.empty"));
+				if (picname == null || "".equals(picname.trim()))
+					this.addInvalidMessage(ctx, "picname", Labels.getLabel("common.validator.empty"));
+				if (picposition == null || "".equals(picposition.trim()))
+					this.addInvalidMessage(ctx, "picposition", Labels.getLabel("common.validator.empty"));
+				if (picphone == null || "".equals(picphone.trim()))
+					this.addInvalidMessage(ctx, "picphone", Labels.getLabel("common.validator.empty"));
+				if (picemail == null || "".equals(picemail.trim()))
+					this.addInvalidMessage(ctx, "picemail", Labels.getLabel("common.validator.empty"));
 
 			}
 		};

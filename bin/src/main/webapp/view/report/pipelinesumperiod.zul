@@ -1,0 +1,85 @@
+<?page title="${desktop.webApp.appName}" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client" xmlns:n="native">
+	<window
+		viewModel="@id('vm') @init('com.sdd.sindikasi.viewmodel.PipelineSumPeriodVm')"
+		validationMessages="@id('vmsgs')">
+		<div class="card">
+			<div class="card-header">
+				<n:h5 class="panel-title">
+					<n:span class="fas fa-list" />
+					Summary Data Pipeline By Period
+				</n:h5>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<n:p class="font-italic">
+							* Dalam Rupiah Dan Satuan Juta.
+						</n:p>
+					</div>
+					<div class="col" align="right">
+						<label value="Year" />
+						<intbox value="@bind(vm.year)" maxlength="4"
+							cols="4" style="text-align: right" onOK="@command('doRefreshModel')" />
+						<button autodisable="self"
+							sclass="btn btn-default btn-sm" label="${labels.common.search}"
+							onClick="@command('doRefreshModel')" />
+						<button autodisable="self"
+							sclass="btn btn-success btn-sm" label="Export To Excel"
+							onClick="@command('doExport')" />
+					</div>
+				</div>
+				<listbox id="listbox"
+					emptyMessage="${labels.common.emptymsg}"
+					selectedItem="@bind(vm.objForm)">
+					<listhead>
+						<listheader label="Period" align="center"
+							width="50px" />
+						<listheader label="Institusi" />
+						<listheader label="Unit" />
+						<listheader label="Total Debitur" align="right"
+							width="110px" />
+						<listheader label="Total TPC" align="right"
+							width="110px" />
+						<listheader label="Total Credit" align="right"
+							width="110px" />
+						<listheader label="Total Self Portion"
+							align="right" width="110px" />
+						<listheader label="Total Fee" align="right"
+							width="110px" />
+					</listhead>
+					<listfoot>
+						<listfooter />
+						<listfooter label="TOTAL" />
+						<listfooter />
+						<listfooter align="right">
+							<decimalbox value="@bind(vm.tdebitur)"
+								format="#,###" cols="10" style="text-align: right"
+								readonly="true" />
+						</listfooter>
+						<listfooter align="right">
+							<decimalbox value="@bind(vm.tpc)"
+								format="#,###" cols="10" style="text-align: right"
+								readonly="true" />
+						</listfooter>
+						<listfooter align="right">
+							<decimalbox value="@bind(vm.tcredit)"
+								format="#,###" cols="10" style="text-align: right"
+								readonly="true" />
+						</listfooter>
+						<listfooter align="right">
+							<decimalbox value="@bind(vm.tsp)"
+								format="#,###" cols="10" style="text-align: right"
+								readonly="true" />
+						</listfooter>
+						<listfooter align="right">
+							<decimalbox value="@bind(vm.tfee)"
+								format="#,###" cols="10" style="text-align: right"
+								readonly="true" />
+						</listfooter>
+					</listfoot>
+				</listbox>
+			</div>
+		</div>
+	</window>
+</zk>

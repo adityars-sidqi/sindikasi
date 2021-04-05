@@ -27,7 +27,7 @@ import org.hibernate.annotations.Type;
 public class Tpipeline implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tpipelinepk;
-	private BigDecimal creditfacility;	
+	private BigDecimal creditfacility;
 	private String creditfacilitycurr;
 	private int creditplan;
 	private BigDecimal feeamount;
@@ -57,6 +57,20 @@ public class Tpipeline implements Serializable {
 	private Mrm mrm;
 	private Msector msector;
 	private Munit munit;
+	private BigDecimal participantportion;
+	private String participantportioncurrency;
+	private BigDecimal kipokok;
+	private String kipokokcurr;
+	private BigDecimal kiidc;
+	private String kiidccurr;
+	private BigDecimal kmk;
+	private String kmkcurr;
+	private BigDecimal termloan;
+	private String termloancurr;
+	private BigDecimal corploan;
+	private String corploancurr;
+	private BigDecimal ncl;
+	private String nclcurr;
 
 	public Tpipeline() {
 	}
@@ -91,7 +105,6 @@ public class Tpipeline implements Serializable {
 		this.creditfacilitycurr = creditfacilitycurr;
 	}
 
-	
 	public int getCreditplan() {
 		return creditplan;
 	}
@@ -125,8 +138,7 @@ public class Tpipeline implements Serializable {
 	public void setFeepercent(BigDecimal feepercent) {
 		this.feepercent = feepercent;
 	}
-	
-	
+
 	public String getIsagentcol() {
 		return isagentcol;
 	}
@@ -236,7 +248,7 @@ public class Tpipeline implements Serializable {
 	}
 
 	@Column(length = 2)
-	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")	
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getSelfportioncurrency() {
 		return selfportioncurrency;
 	}
@@ -263,7 +275,7 @@ public class Tpipeline implements Serializable {
 	public void setTargetpk(Date targetpk) {
 		this.targetpk = targetpk;
 	}
-	
+
 	@Column(length = 40)
 	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
 	public String getTranche() {
@@ -283,8 +295,6 @@ public class Tpipeline implements Serializable {
 	public void setUpdatedby(String updatedby) {
 		this.updatedby = updatedby;
 	}
-	
-	
 
 	public int getYearperiod() {
 		return yearperiod;
@@ -293,7 +303,7 @@ public class Tpipeline implements Serializable {
 	public void setYearperiod(int yearperiod) {
 		this.yearperiod = yearperiod;
 	}
-	
+
 	public int getMonthperiod() {
 		return monthperiod;
 	}
@@ -308,6 +318,134 @@ public class Tpipeline implements Serializable {
 
 	public void setQperiod(String qperiod) {
 		this.qperiod = qperiod;
+	}
+
+	public BigDecimal getParticipantportion() {
+		return participantportion;
+	}
+
+	public void setParticipantportion(BigDecimal participantportion) {
+		this.participantportion = participantportion;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getParticipantportioncurrency() {
+		return participantportioncurrency;
+	}
+
+	public void setParticipantportioncurrency(String participantportioncurrency) {
+		this.participantportioncurrency = participantportioncurrency;
+	}
+	
+	
+
+	public BigDecimal getKipokok() {
+		return kipokok;
+	}
+
+	public void setKipokok(BigDecimal kipokok) {
+		this.kipokok = kipokok;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getKipokokcurr() {
+		return kipokokcurr;
+	}
+
+	public void setKipokokcurr(String kipokokcurr) {
+		this.kipokokcurr = kipokokcurr;
+	}
+
+	public BigDecimal getKiidc() {
+		return kiidc;
+	}
+
+	public void setKiidc(BigDecimal kiidc) {
+		this.kiidc = kiidc;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getKiidccurr() {
+		return kiidccurr;
+	}
+
+	public void setKiidccurr(String kiidccurr) {
+		this.kiidccurr = kiidccurr;
+	}
+
+	public BigDecimal getKmk() {
+		return kmk;
+	}
+
+	public void setKmk(BigDecimal kmk) {
+		this.kmk = kmk;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getKmkcurr() {
+		return kmkcurr;
+	}
+
+	public void setKmkcurr(String kmkcurr) {
+		this.kmkcurr = kmkcurr;
+	}
+
+	public BigDecimal getTermloan() {
+		return termloan;
+	}
+
+	public void setTermloan(BigDecimal termloan) {
+		this.termloan = termloan;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getTermloancurr() {
+		return termloancurr;
+	}
+
+	public void setTermloancurr(String termloancurr) {
+		this.termloancurr = termloancurr;
+	}
+
+	public BigDecimal getCorploan() {
+		return corploan;
+	}
+
+	public void setCorploan(BigDecimal corploan) {
+		this.corploan = corploan;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getCorploancurr() {
+		return corploancurr;
+	}
+
+	public void setCorploancurr(String corploancurr) {
+		this.corploancurr = corploancurr;
+	}
+
+	public BigDecimal getNcl() {
+		return ncl;
+	}
+
+	public void setNcl(BigDecimal ncl) {
+		this.ncl = ncl;
+	}
+
+	@Column(length = 5)
+	@Type(type = "com.sdd.utils.usertype.TrimUpperCaseUserType")
+	public String getNclcurr() {
+		return nclcurr;
+	}
+
+	public void setNclcurr(String nclcurr) {
+		this.nclcurr = nclcurr;
 	}
 
 	// bi-directional many-to-one association to Mdebitur
